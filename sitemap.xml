@@ -23,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/links/index.html</loc>
+    <loc>http://smallqi.com/tags/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
@@ -37,9 +37,16 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/tags/index.html</loc>
+    <loc>http://smallqi.com/links/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/404.html</loc>
+    
+    <lastmod>2020-04-24T17:16:12.523Z</lastmod>
     
   </url>
   
@@ -52,13 +59,6 @@
   
   <url>
     <loc>http://smallqi.com/books/index.html</loc>
-    
-    <lastmod>2020-04-24T17:16:12.523Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://smallqi.com/404.html</loc>
     
     <lastmod>2020-04-24T17:16:12.523Z</lastmod>
     
