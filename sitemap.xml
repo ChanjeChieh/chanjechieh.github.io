@@ -2,20 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/</loc>
-    
-    <lastmod>2020-05-20T04:33:28.925Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</loc>
-    
-    <lastmod>2020-05-20T04:25:47.927Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://smallqi.com/about/index.html</loc>
     
     <lastmod>2020-05-19T07:11:56.744Z</lastmod>
@@ -65,14 +51,14 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/repository/index.html</loc>
+    <loc>http://smallqi.com/links/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://smallqi.com/links/index.html</loc>
+    <loc>http://smallqi.com/repository/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
