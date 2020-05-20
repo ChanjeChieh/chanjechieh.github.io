@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-20T15:19:55.494Z</updated>
+  <updated>2020-05-20T08:30:13.424Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -15,30 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>??flag</title>
-    <link href="http://smallqi.com/2020/05/20/1/"/>
-    <id>http://smallqi.com/2020/05/20/1/</id>
-    <published>2020-05-20T15:18:12.000Z</published>
-    <updated>2020-05-20T15:19:55.494Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="��"><a href="#��" class="headerlink" title="???????????? ???? ????????��"></a>???????????? <strong>????</strong> ????????��</h2>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;��&quot;&gt;&lt;a href=&quot;#��&quot; class=&quot;headerlink&quot; title=&quot;???????????? ???? ????????��&quot;&gt;&lt;/a&gt;???????????? &lt;strong&gt;????&lt;/strong&gt; ????????��&lt;/h2&gt;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="???" scheme="http://smallqi.com/tags//"/>
-    
-  </entry>
   
   <entry>
     <title>三次握手 和 四次挥手</title>
@@ -162,31 +138,6 @@
     
     
       <category term="算法" scheme="http://smallqi.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>立个 flag</title>
-    <link href="http://smallqi.com/2020/05/08/%E7%AB%8B%E4%B8%AAflag/"/>
-    <id>http://smallqi.com/2020/05/08/%E7%AB%8B%E4%B8%AAflag/</id>
-    <published>2020-05-08T15:25:58.000Z</published>
-    <updated>2020-05-20T15:22:37.255Z</updated>
-    
-    <content type="html"><![CDATA[<p>等我技术好点了，我要把下面 <strong>本文链接</strong> 变成中文显示出来</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;等我技术好点了，我要把下面 &lt;strong&gt;本文链接&lt;/strong&gt; 变成中文显示出来&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-    
-      <category term="侃大山" scheme="http://smallqi.com/tags/%E4%BE%83%E5%A4%A7%E5%B1%B1/"/>
     
   </entry>
   
