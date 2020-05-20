@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-19T05:00:19.236Z</updated>
+  <updated>2020-05-20T04:25:47.927Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -15,6 +15,78 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>计算机网络 三次握手</title>
+    <link href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/"/>
+    <id>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</id>
+    <published>2020-05-20T04:24:19.000Z</published>
+    <updated>2020-05-20T04:25:47.927Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="三、TCP-的三次握手"><a href="#三、TCP-的三次握手" class="headerlink" title="三、TCP 的三次握手"></a>三、TCP 的三次握手</h2><h3 id="1、背景知识"><a href="#1、背景知识" class="headerlink" title="1、背景知识"></a>1、背景知识</h3><p> IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，网络中数据包的路由是由IP协议负责的，但是IP协议没有做确定数据包按顺序发送和数据包没有被破坏的事情，所以IP数据包是不可靠的，需要上层协议来控制。</p><p> 这件事情就交给它的上层传输控制协议 TCP 来做：</p><ul><li>面向连接的、可靠的、基于字节流的传输层通信协议</li><li>将应用层的数据流分割成适当长度的报文段（收该计算机连接网络的数据链路层的最大传输单元 MTU 限制）发送给目标结点的TCP层</li><li>TCP 为了保证不丢失包，就给每个包一个序号（sequence），同时也保证了数据的顺序接受，接收方对已经收到的数据包发送ACK确认，而发送方如果在合理的往返时延内没有接受到则进行重传。</li><li>TCP 用奇偶检验和函数来检验数据再传输过程中是否发生错误</li></ul><h3 id="2、TCP-报文头"><a href="#2、TCP-报文头" class="headerlink" title="2、TCP 报文头"></a>2、TCP 报文头</h3><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/1.jpg" alt></p><ul><li><strong>Source Port</strong>（源端口）和<strong>Destination Port</strong>（目的端口）各占两个字节。为解决进程ID局限于本地使用，所以在传输层采用了 IP地址+协议+端口号 唯一标识网络中的一个进程（即套接字Socket）</li><li><strong>Sequence Number</strong>（即Seq序号）占了四个字节，TCP连接传送的字节流中的每个字节都按顺序编号。例如：一个报文段序号是 14，长度为 100，那下一个报文段的序号就是 114</li><li><strong>Acknowledgment Number</strong>（即Ack）占了四个字节，期望收到对方下一个报文的第一个数据字节的序号。例如：B收到A发送的报文序列号是301，数据长度是200字节，则B收到的数据编号从301到500，那B期望收到的下一个A发来的数据序号是501，因此B发送给A的确认报文段中会把Ack置为501。</li><li><strong>Header Length</strong>（也叫OffSet，即数据偏移量），它指出TCP报文的数据距离TCP报文的起始处有多远。</li><li>8 个TCP控制位中 ACK（标识Ack序号是否有效）、SYN（用于建立连接过程）、FIN（用于标识是否释放连接） 这三个标识位</li><li><strong>Window Size</strong> （滑动窗口的大小），用来告知发送端和接收端的缓存大小，以此控制发送端发送的速率，从而达到流量控制。</li><li><strong>TCP Checksum</strong>（奇偶校验和），对TCP头部和TCP数据以计算所得，由发送端生成，接收端存储校验</li><li><strong>Urgent Pointer</strong> 指出本段TCP报文的紧急字节数</li></ul><h3 id="3、三次握手"><a href="#3、三次握手" class="headerlink" title="3、三次握手"></a>3、三次握手</h3><p> 当应用程序愿意通过TCP与另一个应用程序通信时，它会发送一个通信请求，这个请求必须被发送给一个确切的地址，在双方握手（即<strong>三次握手</strong>）之后TCP将在两个应用之间建立全双工通信（计算机A可以给B发送信息，同时B也能给A回发信息），占用两个计算机的通信线路，直到一方或双方关闭为止</p><p>TCP三次握手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/2.jpg" alt="TCP三次握手"></p><p>第一次握手：  </p><ol><li>服务器的 TCP服务进程 创建 传输控制块TCB，时刻准备接受其他客户进程发送过来的连接请求，接下来服务器便进入 <strong>LISTEN</strong>（即监听状态）</li><li>客户端的 TCP服务进程 创建 传输控制块TCB，然后向服务器发出连接请求报文（SYN=1,seq=x），此时客户端进入 <strong>SYN-SENT</strong>（即同步-已发送状态），该报文不能携带数据，但会消耗一个序列号</li></ol><p>第二次握手</p><ol><li>服务器 TCP服务进程 收到请求报文后，如果同意连接则发送确认报文（SYN=1,ACK=1,seq=y,ack=x+1），此时服务端进入 <strong>SYN-RCVD</strong>（即同步-收到状态），这个报文同样不能携带数据，且需要消耗一个序号</li></ol><p>第三次握手：</p><ol><li>客户端的 TCP服务进程 收到确认报文后还要向服务器发送一个确认报文（ACK=1,seq=x+1,ack=y+1），此时客户端进入 <strong>ESTABLISHED</strong>（即建立状态）</li><li>服务器的 TCP服务进程 收到确认报文后便结束  <strong>SYN-RCVD</strong> 状态，进入 <strong>ESTABLISHED</strong></li></ol><p>4、为什么要进行三次握手？</p><ol><li>防止服务器开启无用的连接增加服务器的开销（服务器因为客户端的超时重传不断开启新的端口造成的资源浪费）</li><li>防止因为已经失效的连接请求报文段被传回服务器而产生错误</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;三、TCP-的三次握手&quot;&gt;&lt;a href=&quot;#三、TCP-的三次握手&quot; class=&quot;headerlink&quot; title=&quot;三、TCP 的三次握手&quot;&gt;&lt;/a&gt;三、TCP 的三次握手&lt;/h2&gt;&lt;h3 id=&quot;1、背景知识&quot;&gt;&lt;a href=&quot;#1、背景知识&quot; cla
+      
+    
+    </summary>
+    
+    
+    
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机网络 OSI参考模型和TCP/IP四层模型</title>
+    <link href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/"/>
+    <id>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/</id>
+    <published>2020-05-19T23:31:27.000Z</published>
+    <updated>2020-05-20T04:26:32.299Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一、OSI-七层模型"><a href="#一、OSI-七层模型" class="headerlink" title="一、OSI 七层模型"></a>一、OSI 七层模型</h2><h3 id="第一层：物理层"><a href="#第一层：物理层" class="headerlink" title="第一层：物理层"></a>第一层：物理层</h3><p>机器A往机器B发送比特流，机器B能收到这些比特流，这就是物理层要完成的事情</p><ul><li>物理层定义了物理设备的标准，如网线类型、光纤的借口类型，各种传输介质的传输速率等</li><li>主要功能是传输比特流，即01数据，将它们转换为电流强弱来进行传输，到达目的地后再转换为01机器码，即“数模转换”与“模数转换”</li></ul><h3 id="第二层-数据链路层"><a href="#第二层-数据链路层" class="headerlink" title="第二层 数据链路层"></a>第二层 数据链路层</h3><p>在物理层中，可能会出现错传甚至不传的可能，数据链路层应运而生</p><ul><li>数据链路层定义了如何格式化数据，以进行传输，及如何控制对物理链路的访问</li><li>主要功能是错误检测和纠正，以确保传输的可靠性，本层将比特数据和校验数据封装成了“帧”，交换机便工作在这一层</li></ul><h3 id="第三层-网络层"><a href="#第三层-网络层" class="headerlink" title="第三层 网络层"></a>第三层 网络层</h3><p>随着交换机不断增加，数据传输过程中传输路径的选择变得重要起来，因此就有了网络层</p><ul><li>网络层将网络地址翻译成对应的物理地址，并决定如何将发送方路由到接收方，网络层通过中和考虑发送优先权、网络拥塞程度、服务质量以及可选路由的花费来决定从一个网络中结点A到另一个网络中结点B的最佳路径，此层的数据称为数据包</li><li>IP协议</li></ul><h3 id="第四层-传输层"><a href="#第四层-传输层" class="headerlink" title="第四层 传输层"></a>第四层 传输层</h3><p>随着网络通信需求的进一步扩大，网络中需要发送大量的数据，可能需要很长时间，而网络通信的过程会中断很多次，此时为了保证传输大量文件时的准确性，需要对发送的数据切割成一个个的 segment，在这个过程中segment丢失时是否需要进行重传？每个segment是否需要按照顺序到达？这就是传输层的任务。</p><ul><li>传输层解决了主机间的数据传输，和其质量问题，也是OSI七层模型中最重要的一层</li><li>主要功能是流量控制，或根据接收方的接受速率适当改变发送速率；按照网络能够处理的最大尺寸将数据包进行强制分割，并给每一个数据片编号，以便到达接受方后能够以正确的顺序重组（排序）</li><li>TCP协议、UDP协议</li></ul><h3 id="第五层-会话层"><a href="#第五层-会话层" class="headerlink" title="第五层 会话层"></a>第五层 会话层</h3><p>但网络终究是给人使用的，人们不想把精力过多的放在底层的控制上，那自动收发包、自动寻址就很重要了，于是有了会话层</p><h3 id="第六层-表示层"><a href="#第六层-表示层" class="headerlink" title="第六层 表示层"></a>第六层 表示层</h3><p>解决不同系统之间语法不同的问题</p><h3 id="第七层-应用层"><a href="#第七层-应用层" class="headerlink" title="第七层 应用层"></a>第七层 应用层</h3><p>接收方没办法知道发送方发送数据的大小等信息，应用层就规定了发送的数据中需要加一个包含这些信息的头部</p><ul><li>http协议</li></ul><h2 id="二、TCP-IP-四层模型"><a href="#二、TCP-IP-四层模型" class="headerlink" title="二、TCP/IP 四层模型"></a>二、TCP/IP 四层模型</h2><p>OSI七层模型只是一个参考模型并非一个标准，且太复杂难以实现，所以并未应用到实际中，而TCP/IP四层模型则更注重电脑在实际通信中应该开发哪种程序</p><ul><li>应用层（应用层+表示层+会话层）</li><li>传输层</li><li>网络层</li><li>链路层（物理链路层+物理层）</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;一、OSI-七层模型&quot;&gt;&lt;a href=&quot;#一、OSI-七层模型&quot; class=&quot;headerlink&quot; title=&quot;一、OSI 七层模型&quot;&gt;&lt;/a&gt;一、OSI 七层模型&lt;/h2&gt;&lt;h3 id=&quot;第一层：物理层&quot;&gt;&lt;a href=&quot;#第一层：物理层&quot; class
+      
+    
+    </summary>
+    
+    
+    
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机网络 OSI七层参考模型和TCP/IP四层模型</title>
+    <link href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0/"/>
+    <id>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0/</id>
+    <published>2020-05-19T23:31:27.000Z</published>
+    <updated>2020-05-20T04:29:46.744Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一、OSI-七层参考模型"><a href="#一、OSI-七层参考模型" class="headerlink" title="一、OSI 七层参考模型"></a>一、OSI 七层参考模型</h2><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0/1.jpg" alt="asd"></p><h3 id="第一层：物理层"><a href="#第一层：物理层" class="headerlink" title="第一层：物理层"></a>第一层：物理层</h3><p>机器A往机器B发送比特流，机器B能收到这些比特流，这就是物理层要完成的事情</p><ul><li>物理层定义了物理设备的标准，如网线类型、光纤的借口类型，各种传输介质的传输速率等</li><li>主要功能是传输比特流，即01数据，将它们转换为电流强弱来进行传输，到达目的地后再转换为01机器码，即“数模转换”与“模数转换”</li></ul><h3 id="第二层-数据链路层"><a href="#第二层-数据链路层" class="headerlink" title="第二层 数据链路层"></a>第二层 数据链路层</h3><p>在物理层中，可能会出现错传甚至不传的可能，数据链路层应运而生</p><ul><li>数据链路层定义了如何格式化数据，以进行传输，及如何控制对物理链路的访问</li><li>主要功能是错误检测和纠正，以确保传输的可靠性，本层将比特数据和校验数据封装成了“帧”，交换机便工作在这一层</li></ul><h3 id="第三层-网络层"><a href="#第三层-网络层" class="headerlink" title="第三层 网络层"></a>第三层 网络层</h3><p>随着交换机不断增加，数据传输过程中传输路径的选择变得重要起来，因此就有了网络层</p><ul><li>网络层将网络地址翻译成对应的物理地址，并决定如何将发送方路由到接收方，网络层通过中和考虑发送优先权、网络拥塞程度、服务质量以及可选路由的花费来决定从一个网络中结点A到另一个网络中结点B的最佳路径，此层的数据称为数据包</li><li>IP协议</li></ul><h3 id="第四层-传输层"><a href="#第四层-传输层" class="headerlink" title="第四层 传输层"></a>第四层 传输层</h3><p>随着网络通信需求的进一步扩大，网络中需要发送大量的数据，可能需要很长时间，而网络通信的过程会中断很多次，此时为了保证传输大量文件时的准确性，需要对发送的数据切割成一个个的 segment，在这个过程中segment丢失时是否需要进行重传？每个segment是否需要按照顺序到达？这就是传输层的任务。</p><ul><li>传输层解决了主机间的数据传输，和其质量问题，也是OSI七层模型中最重要的一层</li><li>主要功能是流量控制，或根据接收方的接受速率适当改变发送速率；按照网络能够处理的最大尺寸将数据包进行强制分割，并给每一个数据片编号，以便到达接受方后能够以正确的顺序重组（排序）</li><li>TCP协议、UDP协议</li></ul><h3 id="第五层-会话层"><a href="#第五层-会话层" class="headerlink" title="第五层 会话层"></a>第五层 会话层</h3><p>但网络终究是给人使用的，人们不想把精力过多的放在底层的控制上，那自动收发包、自动寻址就很重要了，于是有了会话层</p><h3 id="第六层-表示层"><a href="#第六层-表示层" class="headerlink" title="第六层 表示层"></a>第六层 表示层</h3><p>解决不同系统之间语法不同的问题</p><h3 id="第七层-应用层"><a href="#第七层-应用层" class="headerlink" title="第七层 应用层"></a>第七层 应用层</h3><p>接收方没办法知道发送方发送数据的大小等信息，应用层就规定了发送的数据中需要加一个包含这些信息的头部</p><ul><li>http协议</li></ul><h2 id="二、TCP-IP-四层模型"><a href="#二、TCP-IP-四层模型" class="headerlink" title="二、TCP/IP 四层模型"></a>二、TCP/IP 四层模型</h2><p>OSI七层模型只是一个参考模型并非一个标准，且太复杂难以实现，所以并未应用到实际中，而TCP/IP四层模型则更注重电脑在实际通信中应该开发哪种程序</p><ul><li>应用层（应用层+表示层+会话层）</li><li>传输层</li><li>网络层</li><li>链路层（物理链路层+物理层）</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;一、OSI-七层参考模型&quot;&gt;&lt;a href=&quot;#一、OSI-七层参考模型&quot; class=&quot;headerlink&quot; title=&quot;一、OSI 七层参考模型&quot;&gt;&lt;/a&gt;一、OSI 七层参考模型&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/2020/05/20/%E8%AE%A
+      
+    
+    </summary>
+    
+    
+    
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>关于使用hexo博客插入图片插件后图片地址错误的问题</title>
