@@ -21,21 +21,21 @@
   <meta name="description" content="一、背景知识1、TCP 传输协议 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。  所以这件事情就交给了它的上层传输控制协议 TCP 来做了：  面向连接的、可靠的、基于字节流的传输层通信协议 将应用层">
 <meta property="og:type" content="article">
 <meta property="og:title" content="三次握手 和 四次挥手">
-<meta property="og:url" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/index.html">
+<meta property="og:url" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
 <meta property="og:site_name" content="WangJie&#96;s Blog">
 <meta property="og:description" content="一、背景知识1、TCP 传输协议 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。  所以这件事情就交给了它的上层传输控制协议 TCP 来做了：  面向连接的、可靠的、基于字节流的传输层通信协议 将应用层">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/1.jpg">
-<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/2.jpg">
-<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/2.jpg">
+<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg">
+<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg">
+<meta property="og:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg">
 <meta property="article:published_time" content="2020-05-20T04:24:19.000Z">
 <meta property="article:modified_time" content="2020-05-20T08:30:13.424Z">
 <meta property="article:author" content="WangJie">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/1.jpg">
+<meta name="twitter:image" content="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/index.html">
+  <link rel="canonical" href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
   
     <link rel="alternate" href="/atom.xml" title="WangJie`s Blog" type="application/atom+xml">
   
@@ -178,7 +178,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -188,7 +188,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.5px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+      <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 14px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
     </div>
   </div>
 
@@ -197,7 +197,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -216,22 +216,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">三次握手和四次挥手</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2020-05-20T04:24:19.000Z" itemprop="datePublished">2020-05-20</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="title">三次握手 和 四次挥手</a>
+                <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">三次握手 和 四次挥手</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-05-20T04:24:19.000Z" itemprop="datePublished">2020-05-20</time>
@@ -284,6 +269,21 @@
             </div>
           </li>
           
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2020/05/08/%E6%8E%92%E5%BA%8F/" class="title">基础排序算法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-08T15:25:58.000Z" itemprop="datePublished">2020-05-08</time>
+              </p>
+            </div>
+          </li>
+          
       </ul>
     </div>
   </div>
@@ -297,7 +297,7 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-计算机网络-三次握手" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-计算机网络-三次握手-和-四次挥手" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
@@ -312,7 +312,7 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="article-date">
+	<a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="article-date">
 	  <time datetime="2020-05-20T04:24:19.000Z" itemprop="datePublished">2020-05-20</time>
 	</a>
 </span>
@@ -333,7 +333,7 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/#comments" class="article-comment-link">评论</a></span>
         
 	
 		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.9k(字)</span>
@@ -354,7 +354,7 @@
 <li>TCP 为了保证不丢失包，就给每个包一个序号（sequence），同时也保证了数据的顺序接受，接收方对已经收到的数据包发送ACK确认，而发送方如果在合理的往返时延内没有接受到则进行重传</li>
 <li>TCP 用奇偶检验和函数来检验数据再传输过程中是否发生错误</li>
 </ul>
-<h2 id="2、TCP-报文头"><a href="#2、TCP-报文头" class="headerlink" title="2、TCP 报文头"></a>2、TCP 报文头</h2><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/1.jpg" alt></p>
+<h2 id="2、TCP-报文头"><a href="#2、TCP-报文头" class="headerlink" title="2、TCP 报文头"></a>2、TCP 报文头</h2><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg" alt></p>
 <ul>
 <li><strong>Source Port</strong>（源端口）和<strong>Destination Port</strong>（目的端口）各占两个字节。为解决进程ID局限于本地使用，所以在传输层采用了 IP地址+协议+端口号 唯一标识网络中的一个进程（即套接字Socket）</li>
 <li><strong>Sequence Number</strong>（即Seq序号）占了四个字节，TCP连接传送的字节流中的每个字节都按顺序编号。例如：一个报文段序号是 14，长度为 100，那下一个报文段的序号就是 114</li>
@@ -366,7 +366,7 @@
 <li><strong>Urgent Pointer</strong> 指出本段TCP报文的紧急字节数</li>
 </ul>
 <h1 id="二、TCP-的三次握手"><a href="#二、TCP-的三次握手" class="headerlink" title="二、TCP 的三次握手"></a>二、TCP 的三次握手</h1><p> 当应用程序愿意通过TCP与另一个应用程序通信时，它会发送一个通信请求，这个请求必须被发送给一个确切的地址，在双方握手（即<strong>三次握手</strong>）之后TCP将在两个应用之间建立全双工通信（计算机A可以给B发送信息，同时B也能给A回发信息），占用两个计算机的通信线路，直到一方或双方关闭为止</p>
-<p>TCP三次握手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/2.jpg" alt="TCP三次握手"></p>
+<p>TCP三次握手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP三次握手"></p>
 <p><strong>第一次握手：</strong></p>
 <ol>
 <li>服务器的 TCP服务进程 创建 传输控制块TCB，时刻准备接受其他客户进程发送过来的连接请求，接下来服务器便进入 <strong>LISTEN</strong>（即监听状态）</li>
@@ -389,7 +389,7 @@
 </ol>
 </blockquote>
 <h1 id="三、TCP-的四次挥手"><a href="#三、TCP-的四次挥手" class="headerlink" title="三、TCP 的四次挥手"></a>三、TCP 的四次挥手</h1><p>“挥手” 的目的就是终止连接，所谓 “四次挥手”，就是客户端和服务端总共发出四个包，以确认连接断开。</p>
-<p>TCP四次挥手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/2.jpg" alt="TCP四次挥手"></p>
+<p>TCP四次挥手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP四次挥手"></p>
 <p> 数据传送完毕之后双方均可释放连接，释放前双方均处于 <strong>ESTABLISHED</strong> 的状态</p>
 <p><strong>第一次挥手：</strong>  </p>
 <ol>
@@ -432,7 +432,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" title="三次握手 和 四次挥手" target="_blank" rel="external">http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</a>
+      <a href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" title="三次握手 和 四次挥手" target="_blank" rel="external">http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -477,10 +477,6 @@
   <div class="bar-inner">
   
   <ul class="pager pull-left">
-    
-    <li class="prev">
-      <a href="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" title="三次握手和四次挥手"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
     
     
     <li class="next">
