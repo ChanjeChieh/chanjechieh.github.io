@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-20T08:30:13.424Z</updated>
+  <updated>2020-05-20T15:19:55.494Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>??flag</title>
+    <link href="http://smallqi.com/2020/05/20/%E7%AB%8B%E4%B8%AAflag/"/>
+    <id>http://smallqi.com/2020/05/20/%E7%AB%8B%E4%B8%AAflag/</id>
+    <published>2020-05-20T15:18:12.000Z</published>
+    <updated>2020-05-20T15:19:55.494Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="��"><a href="#��" class="headerlink" title="???????????? ???? ????????��"></a>???????????? <strong>????</strong> ????????��</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;��&quot;&gt;&lt;a href=&quot;#��&quot; class=&quot;headerlink&quot; title=&quot;???????????? ???? ????????��&quot;&gt;&lt;/a&gt;???????????? &lt;strong&gt;????&lt;/strong&gt; ????????��&lt;/h2&gt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="???" scheme="http://smallqi.com/tags//"/>
+    
+  </entry>
   
   <entry>
     <title>三次握手 和 四次挥手</title>

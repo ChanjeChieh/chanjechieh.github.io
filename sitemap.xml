@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://smallqi.com/2020/05/20/%E7%AB%8B%E4%B8%AAflag/</loc>
+    
+    <lastmod>2020-05-20T15:19:55.494Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://smallqi.com/2020/04/28/hello-world/</loc>
     
     <lastmod>2020-05-20T08:56:15.755Z</lastmod>
@@ -72,14 +79,14 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/repository/index.html</loc>
+    <loc>http://smallqi.com/tags/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://smallqi.com/tags/index.html</loc>
+    <loc>http://smallqi.com/repository/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
