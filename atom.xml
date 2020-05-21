@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-20T08:30:13.424Z</updated>
+  <updated>2020-05-21T07:37:36.031Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -17,11 +17,68 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>三次握手 和 四次挥手</title>
+    <title>【计网】 TCP 的滑动窗口</title>
+    <link href="http://smallqi.com/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/"/>
+    <id>http://smallqi.com/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</id>
+    <published>2020-05-21T05:45:39.000Z</published>
+    <updated>2020-05-21T07:37:36.031Z</updated>
+    
+    <content type="html"><![CDATA[<p>先复习两个名词：</p><ul><li>RTT（Round-Trip Time）：发送一个数据包到收到对应的ACK，所花费的时间</li><li>RTO（Retransmisstion Time-Out）：重传时间间隔</li></ul><p>我们知道，在传输过程中网络经常发生终端，导致大文件无法正常传输，所以 TCP 会将数据拆分成一个个小的 segment，但拆分成小的 segment 后不能一个一个发送，等上一个数据被确认接收到后再发送下一个数据的话，效率太低，这里就需要批量发送，批量发送的话又要考虑丢包和顺序的问题，这就是 <strong>滑动窗口</strong> 要解决的事情。TCP 使用滑动窗口做 流量控制 和 乱序重排：</p><ul><li>保证 TCP 的可靠性</li><li>保证 TCP 的流控特性</li></ul><h2 id="一、流量控制："><a href="#一、流量控制：" class="headerlink" title="一、流量控制："></a>一、流量控制：</h2><p>在 TCP 报文头中有一个 Window Size 属性，用来表示接收方还有多少缓冲区可以接受数据，发送方就根据这个字段来控制发送的速度，以保证接收方能正确无误地接受、处理数据，这就是流量控制。    </p><p><img src="/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/1.jpg" alt="TCP报文头"></p><p><strong>窗口数据的计算过程：</strong></p><p><img src="/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/2.webp" alt="TCP报文头"></p><p>上面左图为发送端缓冲区，右图为接收端缓冲区，长条表示要发送的从左向右的数据流，</p><ul><li>发送端：  </li></ul><p><strong>LastByteAcked：</strong>  指向收到的连续的最大的 ack 的位置，即从左向右收到的已经被接收端发送确认回执的 seq<br><strong>LastByteWriter：</strong>  指向上层应用已经写完的最后一个字节的位置，即当前程序已经准备好的需要发送的最后一个数据段<br><strong>LastByteSent：</strong>  指向已经发送的最后一个字节的位置，这里只是将数据发送而未收到接收端的 ack 回执  </p><ul><li>接收端：  </li></ul><p><strong>LastByteExcepted：</strong>  指向收到的连续最大的 seq，但还未发送 ack 回执<br><strong>LastByteRead：</strong>  指向上层应用已经读完的最后一个字节的位置，即已经收到并处理，且已经发送 ack 回执的位置<br><strong>LastByteRevd：</strong>  指向已经收到的最后一个字节的位置，就像图中展示的那样，这个位置与 LastByteExcepted 之间可能会有其他 seq 还未到达</p><p>有了这些，就可以计算相关的窗口数据了：  </p><ul><li>接收方 <strong>AdversedWindow</strong> = MaxRcvBuffer - ( LastByteRcvd - LastByteRead )</li><li>发送方 <strong>EffectiveWindow</strong> = AdversedWindow - ( LastByteSent - LastByteAcked )</li></ul><p>发送方根据计算最终得到的 EffectiveWindow 来控制发送速率，这样便达到流量控制的目的。</p><h2 id="二、滑动窗口的基本原理"><a href="#二、滑动窗口的基本原理" class="headerlink" title="二、滑动窗口的基本原理"></a>二、滑动窗口的基本原理</h2><h3 id="2-1-对TCP连接中的发送端来说："><a href="#2-1-对TCP连接中的发送端来说：" class="headerlink" title="2.1 对TCP连接中的发送端来说："></a>2.1 对TCP连接中的发送端来说：</h3><p>在 TCP 会话中，发送端的发送缓存内任何时刻的数据都可以分为以下四类：  </p><ol><li>已经发送 且 已被确认的数据</li><li>已经发送 但 未被确认的数据</li><li>没有发送 但 允许发送的数据</li><li>没有发送 且 不允许发送的数据</li></ol><p><img src="/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/3.webp" alt="滑动窗口"><br>其中红色矩形圈住的这两部分数据（已经发送但还没得到确认的数据 和 没有发送但已经准备好且允许发送的数据）组成的连续空间就叫做 <strong>滑动窗口</strong></p><p>如下图，只有当 原滑动窗口 中的32、33、34、35处的数据被全部收到且确认（即从滑动窗口中最左边开始连续被确认），滑动窗口才能向前移动。<br><img src="/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/4.webp" alt="滑动窗口"></p><h3 id="2-2-对TCP连接中的接收端来说："><a href="#2-2-对TCP连接中的接收端来说：" class="headerlink" title="2.2 对TCP连接中的接收端来说："></a>2.2 对TCP连接中的接收端来说：</h3><p>在 TCP 会话中，接受端的接受缓存内任何时刻的数据都可以分为以下三类：</p><ol><li>已经接收 且 已发确认的数据</li><li>没有接收 但 可以接收的数据</li><li>没有接收 且 不允许接受的数据</li></ol><p><img src="/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/5.webp" alt="滑动窗口"></p><p>（其滑动窗口的移动机制与发送端一致）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;先复习两个名词：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RTT（Round-Trip Time）：发送一个数据包到收到对应的ACK，所花费的时间&lt;/li&gt;
+&lt;li&gt;RTO（Retransmisstion Time-Out）：重传时间间隔&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们知道，在传输过程
+      
+    
+    </summary>
+    
+    
+    
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>�������� UDP �� TCP ������</title>
+    <link href="http://smallqi.com/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://smallqi.com/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2020-05-21T05:20:29.000Z</published>
+    <updated>2020-05-21T05:44:32.329Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="һ������UDP"><a href="#һ������UDP" class="headerlink" title="һ������UDP"></a>һ������UDP</h2><p>UDP�ı��Ľṹ��<br> <img src="/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="UDP�ı��Ľṹ"></p><ul><li><p>Source Port Դ�˿�</p></li><li><p>Destination Port Ŀ��˿�</p></li><li><p>Length ����</p></li><li><p>CheckNum ��ż����ֵ</p><p>�򵥵ı��Ľṹ����ζ��UDP����TCP����֧�� �����ش����������ڵȿ��ƣ��ص㣺</p></li><li><p>���������</p></li><li><p>��ά������״̬��֧��ͬʱ�����ͻ��˴�����ͬ����Ϣ</p></li><li><p>���ݰ���ͷֻ��8���ֽڣ���������⿪����С</p></li><li><p>������֮�����������������ʡ��������ʺͻ�������</p></li><li><p>�����Ŭ��������������֤�ɿ�������������������Ҫά�ָ��ӵ�����״̬��</p></li><li><p>�����ģ�����Ӧ�ó����ύ�ı�����Ϣ���в�ֻ��ߺϲ���������ͷ����ֱ�ӽ����²�</p></li></ul><h2 id="����UDP��TCP������"><a href="#����UDP��TCP������" class="headerlink" title="����UDP��TCP������"></a>����UDP��TCP������</h2><p>���߶���OSI�߲�ģ����������е�Э�飬�����������£�<br>| TCP | UDP |<br>| — | —  |<br>| �������ӣ����������ֵ����ӹ��̣� | �����ӣ��ʺ���Ϣ�Ķಥ������һ�Զࣩ |<br>| �ɿ��Ը� | �ɿ��Ե� |<br>| �������кű�֤����˳�򽻸� | ���߱������� |<br>| �ٶȽ��������ֿ����ֶ����Ľ϶�ʱ�䣩 | �ٶȽϿ� |<br>| ��������ͷ��20���ֽڣ� | ��������ͷ��8���ֽڣ� |</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;һ������UDP&quot;&gt;&lt;a href=&quot;#һ������UDP&quot; class=&quot;headerlink&quot; title=&quot;һ������UDP&quot;&gt;&lt;/a&gt;һ������UDP&lt;/h2&gt;&lt;p&gt;UDP�ı��Ľṹ��&lt;br&gt; &lt;img src=&quot;/2020/05/21/
+      
+    
+    </summary>
+    
+    
+    
+      <category term="���������" scheme="http://smallqi.com/tags/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/"/>
+    
+      <category term="��ϰ" scheme="http://smallqi.com/tags/%EF%BF%BD%EF%BF%BD%CF%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【计网】 三次握手 和 四次挥手</title>
     <link href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/"/>
     <id>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</id>
     <published>2020-05-20T04:24:19.000Z</published>
-    <updated>2020-05-20T08:30:13.424Z</updated>
+    <updated>2020-05-21T05:44:43.517Z</updated>
     
     <content type="html"><![CDATA[<h1 id="一、背景知识"><a href="#一、背景知识" class="headerlink" title="一、背景知识"></a>一、背景知识</h1><h2 id="1、TCP-传输协议"><a href="#1、TCP-传输协议" class="headerlink" title="1、TCP 传输协议"></a>1、TCP 传输协议</h2><p> 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。</p><p> 所以这件事情就交给了它的上层传输控制协议 TCP 来做了：</p><ul><li>面向连接的、可靠的、基于字节流的传输层通信协议</li><li>将应用层的数据流分割成适当长度的报文段（受该计算机连接网络的数据链路层的最大传输单元 MTU 限制）发送给目标结点的 TCP 层</li><li>TCP 为了保证不丢失包，就给每个包一个序号（sequence），同时也保证了数据的顺序接受，接收方对已经收到的数据包发送ACK确认，而发送方如果在合理的往返时延内没有接受到则进行重传</li><li>TCP 用奇偶检验和函数来检验数据再传输过程中是否发生错误</li></ul><h2 id="2、TCP-报文头"><a href="#2、TCP-报文头" class="headerlink" title="2、TCP 报文头"></a>2、TCP 报文头</h2><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg" alt></p><ul><li><strong>Source Port</strong>（源端口）和<strong>Destination Port</strong>（目的端口）各占两个字节。为解决进程ID局限于本地使用，所以在传输层采用了 IP地址+协议+端口号 唯一标识网络中的一个进程（即套接字Socket）</li><li><strong>Sequence Number</strong>（即Seq序号）占了四个字节，TCP连接传送的字节流中的每个字节都按顺序编号。例如：一个报文段序号是 14，长度为 100，那下一个报文段的序号就是 114</li><li><strong>Acknowledgment Number</strong>（即Ack）占了四个字节，期望收到对方下一个报文的第一个数据字节的序号。例如：B收到A发送的报文序列号是301，数据长度是200字节，则B收到的数据编号从301到500，那B期望收到的下一个A发来的数据序号是501，因此B发送给A的确认报文段中会把Ack置为501。</li><li><strong>Header Length</strong>（也叫OffSet，即数据偏移量），它指出TCP报文的数据距离TCP报文的起始处有多远。</li><li>8 个TCP控制位中 ACK（标识Ack序号是否有效）、SYN（用于建立连接过程）、FIN（用于标识是否释放连接） 这三个标识位</li><li><strong>Window Size</strong> （滑动窗口的大小），用来告知发送端和接收端的缓存大小，以此控制发送端发送的速率，从而达到流量控制。</li><li><strong>TCP Checksum</strong>（奇偶校验和），对TCP头部和TCP数据以计算所得，由发送端生成，接收端存储校验</li><li><strong>Urgent Pointer</strong> 指出本段TCP报文的紧急字节数</li></ul><h1 id="二、TCP-的三次握手"><a href="#二、TCP-的三次握手" class="headerlink" title="二、TCP 的三次握手"></a>二、TCP 的三次握手</h1><p> 当应用程序愿意通过TCP与另一个应用程序通信时，它会发送一个通信请求，这个请求必须被发送给一个确切的地址，在双方握手（即<strong>三次握手</strong>）之后TCP将在两个应用之间建立全双工通信（计算机A可以给B发送信息，同时B也能给A回发信息），占用两个计算机的通信线路，直到一方或双方关闭为止</p><p>TCP三次握手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP三次握手"></p><p><strong>第一次握手：</strong></p><ol><li>服务器的 TCP服务进程 创建 传输控制块TCB，时刻准备接受其他客户进程发送过来的连接请求，接下来服务器便进入 <strong>LISTEN</strong>（即监听状态）</li><li>客户端的 TCP服务进程 创建 传输控制块TCB，然后向服务器发出连接请求报文（SYN=1,seq=x），此时客户端进入 <strong>SYN-SENT</strong>（即同步-已发送状态），该报文不能携带数据，但会消耗一个序列号</li></ol><p><strong>第二次握手：</strong></p><ol><li>服务器 TCP服务进程 收到请求报文后，如果同意连接则发送确认报文（SYN=1,ACK=1,seq=y,ack=x+1），此时服务端进入 <strong>SYN-RCVD</strong>（即同步-收到状态），这个报文同样不能携带数据，且需要消耗一个序号</li></ol><p><strong>第三次握手：</strong></p><ol><li>客户端的 TCP服务进程 收到确认报文后还要向服务器发送一个确认报文（ACK=1,seq=x+1,ack=y+1），此时客户端进入 <strong>ESTABLISHED</strong>（即建立状态）</li><li>服务器的 TCP服务进程 收到确认报文后便结束  <strong>SYN-RCVD</strong> 状态，进入 <strong>ESTABLISHED</strong></li></ol><blockquote><p>问：为什么要进行三次握手？  </p><ol><li>防止服务器开启无用的连接增加服务器的开销（服务器因为客户端的超时重传不断开启新的端口造成的资源浪费）  </li><li>防止因为已经失效的连接请求报文段被传回服务器而产生错误</li></ol></blockquote><h1 id="三、TCP-的四次挥手"><a href="#三、TCP-的四次挥手" class="headerlink" title="三、TCP 的四次挥手"></a>三、TCP 的四次挥手</h1><p>“挥手” 的目的就是终止连接，所谓 “四次挥手”，就是客户端和服务端总共发出四个包，以确认连接断开。</p><p>TCP四次挥手：<br> <img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP四次挥手"></p><p> 数据传送完毕之后双方均可释放连接，释放前双方均处于 <strong>ESTABLISHED</strong> 的状态</p><p><strong>第一次挥手：</strong>  </p><ol><li>首先客户端进程发出 连接释放报文（FIN=1,seq=u），并停止发送数据，此时客户端进入 <strong>FIN-WAIT-1</strong> 状态，这个报文不能携带数据，但要消耗一个序列号</li></ol><p><strong>第二次挥手：</strong>  </p><ol><li>服务器收到连接释放报文的时候要发出 确认报文（ACK=1,seq=v,ack=u+1），此时服务端进入 <strong>CLOSE-WAIT</strong> 状态，并通知高层的 应用进程 即将断开与客户端的连接，此时客户端不再发送数据，但是服务器发送的数据客户端依旧可以正确接收</li><li>客户端接收到服务器刚刚发送的确认报文（即第二次挥手的请求）后，进入 <strong>FIN-WAIT-2</strong> 状态，等待服务器发送 释放连接报文（第三次挥手的请求）。</li></ol><p> <strong>第三次挥手：</strong>  </p><ol><li>服务器将最后需要发送的数据发送完毕后，向客户端发送连接释放报文（FIN=1,ACK=1,seq=w,ackv+1），此时服务器进入 <strong>LAST-ACK</strong> 状态，等待客户端的最后确认</li></ol><p><strong>第四次挥手</strong></p><ol><li>客户端收到服务器发送的连接释放报文后发送最后一次确认（ACK=1,seq=u+1,ack=w+1），此时客户端进入 <strong>TIME-WAIT</strong> 状态，但此时，客户端的 TCP连接并没有释放，需经过 2MSL（最长报文段寿命） 的时间才进行释放，即进入 <strong>CLOSE</strong> 状态</li><li>服务端收到最后一次确认后，进入  <strong>CLOSE</strong> 状态</li></ol><blockquote><p>问：为什么 “握手” 是三次，而 “挥手” 需要四次？  </p><ol><li>在 “握手” 中，服务端的 同意建立连接信号SYN 和 确认信号ACK 是在同一次握手中发送的  </li><li>而 “挥手” 中，服务端发送的 ACK 和 FIN 由于服务端在收到信号时可能还在传输数据，需要将最后的数据发送完，导致其在不同阶段发送，所以一共有四次挥手</li></ol></blockquote><blockquote><p>问：为什么再第四次挥手中，客户端发送完最后确认后不直接进入 <strong>CLOSE</strong> 状态？</p><ol><li>确保有足够的时间让对方收到 ACK 包</li><li>避免新旧连接混淆</li></ol></blockquote>]]></content>
     
@@ -38,14 +95,16 @@
     
       <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
   </entry>
   
   <entry>
-    <title>OSI七层参考模型 和 TCP/IP四层模型</title>
+    <title>【计网】 OSI七层参考模型 和 TCP/IP四层模型</title>
     <link href="http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/"/>
     <id>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/</id>
     <published>2020-05-19T23:31:27.000Z</published>
-    <updated>2020-05-20T08:55:24.805Z</updated>
+    <updated>2020-05-21T05:44:48.793Z</updated>
     
     <content type="html"><![CDATA[<h2 id="一、OSI-七层参考模型"><a href="#一、OSI-七层参考模型" class="headerlink" title="一、OSI 七层参考模型"></a>一、OSI 七层参考模型</h2><p><img src="/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/1.jpg" alt="OSI七层参考模型"></p><h3 id="第一层：物理层"><a href="#第一层：物理层" class="headerlink" title="第一层：物理层"></a>第一层：物理层</h3><p>机器A往机器B发送比特流，机器B能收到这些比特流，这就是物理层要完成的事情</p><ul><li>物理层定义了物理设备的标准，如网线类型、光纤的借口类型，各种传输介质的传输速率等</li><li>主要功能是传输比特流，即01数据，将它们转换为电流强弱来进行传输，到达目的地后再转换为01机器码，即“数模转换”与“模数转换”</li></ul><h3 id="第二层-数据链路层"><a href="#第二层-数据链路层" class="headerlink" title="第二层 数据链路层"></a>第二层 数据链路层</h3><p>在物理层中，可能会出现错传甚至不传的可能，数据链路层应运而生</p><ul><li>数据链路层定义了如何格式化数据，以进行传输，及如何控制对物理链路的访问</li><li>主要功能是错误检测和纠正，以确保传输的可靠性，本层将比特数据和校验数据封装成了“帧”，交换机便工作在这一层</li></ul><h3 id="第三层-网络层"><a href="#第三层-网络层" class="headerlink" title="第三层 网络层"></a>第三层 网络层</h3><p>随着交换机不断增加，数据传输过程中传输路径的选择变得重要起来，因此就有了网络层</p><ul><li>网络层将网络地址翻译成对应的物理地址，并决定如何将发送方路由到接收方，网络层通过中和考虑发送优先权、网络拥塞程度、服务质量以及可选路由的花费来决定从一个网络中结点A到另一个网络中结点B的最佳路径，此层的数据称为数据包</li><li>IP协议</li></ul><h3 id="第四层-传输层"><a href="#第四层-传输层" class="headerlink" title="第四层 传输层"></a>第四层 传输层</h3><p>随着网络通信需求的进一步扩大，网络中需要发送大量的数据，可能需要很长时间，而网络通信的过程会中断很多次，此时为了保证传输大量文件时的准确性，需要对发送的数据切割成一个个的 segment，在这个过程中segment丢失时是否需要进行重传？每个segment是否需要按照顺序到达？这就是传输层的任务。</p><ul><li>传输层解决了主机间的数据传输，和其质量问题，也是OSI七层模型中最重要的一层</li><li>主要功能是流量控制，或根据接收方的接受速率适当改变发送速率；按照网络能够处理的最大尺寸将数据包进行强制分割，并给每一个数据片编号，以便到达接受方后能够以正确的顺序重组（排序）</li><li>TCP协议、UDP协议</li></ul><h3 id="第五层-会话层"><a href="#第五层-会话层" class="headerlink" title="第五层 会话层"></a>第五层 会话层</h3><p>但网络终究是给人使用的，人们不想把精力过多的放在底层的控制上，那自动收发包、自动寻址就很重要了，于是有了会话层</p><h3 id="第六层-表示层"><a href="#第六层-表示层" class="headerlink" title="第六层 表示层"></a>第六层 表示层</h3><p>解决不同系统之间语法不同的问题</p><h3 id="第七层-应用层"><a href="#第七层-应用层" class="headerlink" title="第七层 应用层"></a>第七层 应用层</h3><p>接收方没办法知道发送方发送数据的大小等信息，应用层就规定了发送的数据中需要加一个包含这些信息的头部</p><ul><li>http协议</li></ul><h2 id="二、TCP-IP-四层模型"><a href="#二、TCP-IP-四层模型" class="headerlink" title="二、TCP/IP 四层模型"></a>二、TCP/IP 四层模型</h2><p>OSI七层模型只是一个参考模型并非一个标准，且太复杂难以实现，所以并未应用到实际中，而TCP/IP四层模型则更注重电脑在实际通信中应该开发哪种程序</p><ul><li>应用层（应用层+表示层+会话层）</li><li>传输层</li><li>网络层</li><li>链路层（物理链路层+物理层）</li></ul>]]></content>
     
@@ -61,6 +120,8 @@
     
     
       <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
   </entry>
   
@@ -119,7 +180,7 @@
     <link href="http://smallqi.com/2020/05/08/%E6%8E%92%E5%BA%8F/"/>
     <id>http://smallqi.com/2020/05/08/%E6%8E%92%E5%BA%8F/</id>
     <published>2020-05-08T15:25:58.000Z</published>
-    <updated>2020-05-20T08:55:56.526Z</updated>
+    <updated>2020-05-21T05:43:42.074Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>逆序对：<br>在一个数组里面，对于下标 i&lt;j，如果 A[i]&gt;A[j]，则称 (i,j) 或 A[i]&gt;A[j] 是一对 <strong>逆序对</strong>。</p></blockquote><h3 id="一、冒泡排序"><a href="#一、冒泡排序" class="headerlink" title="一、冒泡排序"></a>一、冒泡排序</h3><ul><li>将数组中 N 个元素看作 N 个大小不同的泡泡，从第一个元素开始 “冒泡”：遇到前一个元素比后一个元素大的时就交换两个元素的位置，这样，每次冒泡就将最大的泡泡放在 “最后” ，重复 N 次。  </li><li>如果有一次 “冒泡” 没有发现需要交换的两个相邻元素，说明数组已经排序完成，可直接退出。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void Bubble_Sort(ElementType A[], int N) &#123;</span><br><span class="line">    for(int P &#x3D; N; P &gt;&#x3D; 0; P--) &#123;</span><br><span class="line">        int flag &#x3D; 0; &#x2F;&#x2F;用来标识数组是否已经排好序</span><br><span class="line">        for(int i &#x3D; 0; i &lt; P; i++)&#123;</span><br><span class="line">            if(A[i] &gt; A[i-1])&#123;</span><br><span class="line">                Swap(A[i], A[i-1]);</span><br><span class="line">                flag &#x3D; 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if( !flag ) break; &#x2F;&#x2F;数组已经排序完成可直接退出</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>最好情况：O (N)<br>最坏情况：O (N^2)<br>优点：简单、稳定、可以处理链表的排序</p></blockquote></li></ul><h3 id="二、插入排序"><a href="#二、插入排序" class="headerlink" title="二、插入排序"></a>二、插入排序</h3><ul><li>将 N 个元素的数组看作 N 张牌，想象这样的场景：开始的时候手里只有下标为 0 处的那张 “牌”，接下来每次遍历中，拿到 当前下标加一 处的 “牌”，然后在在手里已经有的牌中找到合适的位置插入，重复这个过程。</li><li>当所有的 “牌” 都在手中时，数组排序完成。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void Insertion_Sort(ElementType A[], int N) &#123;</span><br><span class="line">    for(int P &#x3D; 1; P &lt; N; i++)&#123; &#x2F;&#x2F;假设手中有一张下标为 0 处的那张 “牌”</span><br><span class="line">        int i, temp &#x3D; A[P];</span><br><span class="line">        for(i &#x3D; P; i &gt; 0 &amp;&amp; A[i-1] &gt; temp; i--&gt;)</span><br><span class="line">            A[i] &#x3D; A[i-1];</span><br><span class="line">        A[i] &#x3D; temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>最好情况：O (N)<br>最坏情况：O (N^2)<br>优点：简单、稳定</p></blockquote></li></ul><p>这两个排序算法虽然简单，但是每次交换相邻元素只能抵消一对逆序对，影响到了效率。那，提高效率的一个点就是想办法使每次交换元素时能抵消多个 <strong>逆序对</strong>，所以就有了下面的希尔排序。</p><h3 id="三、希尔排序"><a href="#三、希尔排序" class="headerlink" title="三、希尔排序"></a>三、希尔排序</h3><ul><li>希尔排序通过引入 <strong>增量序列</strong> 改进了插入排序每次交换元素只能抵消一个逆序对的缺点，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void Shell_Sort(ElementType A[], int N) &#123;</span><br><span class="line">    for(int D &#x3D; N&#x2F;2; D &gt; 0; D &#x2F;&#x3D; 2) &#123;</span><br><span class="line">        for(int P &#x3D; D; P &lt; N; p ++) &#123;</span><br><span class="line">            int i, temp &#x3D; A[P];</span><br><span class="line">            for(i &#x3D; P; i &gt; D; i -&#x3D; D)</span><br><span class="line">                A[i] &#x3D; A[i-D];</span><br><span class="line">            A[i] &#x3D; temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
     
@@ -136,6 +197,8 @@
     </summary>
     
     
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
       <category term="算法" scheme="http://smallqi.com/tags/%E7%AE%97%E6%B3%95/"/>
     

@@ -2,6 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://smallqi.com/2020/05/21/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</loc>
+    
+    <lastmod>2020-05-21T07:37:36.031Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/</loc>
+    
+    <lastmod>2020-05-21T05:44:48.793Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</loc>
+    
+    <lastmod>2020-05-21T05:44:43.517Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/</loc>
+    
+    <lastmod>2020-05-21T05:44:32.329Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/2020/05/08/%E6%8E%92%E5%BA%8F/</loc>
+    
+    <lastmod>2020-05-21T05:43:42.074Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://smallqi.com/2020/04/28/hello-world/</loc>
     
     <lastmod>2020-05-20T08:56:15.755Z</lastmod>
@@ -23,30 +58,9 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/2020/05/08/%E6%8E%92%E5%BA%8F/</loc>
-    
-    <lastmod>2020-05-20T08:55:56.526Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://smallqi.com/2020/05/19/%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%92%E4%BB%B6%E5%90%8E%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2020-05-20T08:55:53.348Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/</loc>
-    
-    <lastmod>2020-05-20T08:55:24.805Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://smallqi.com/2020/05/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</loc>
-    
-    <lastmod>2020-05-20T08:30:13.424Z</lastmod>
     
   </url>
   
@@ -65,13 +79,6 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/repository/index.html</loc>
-    
-    <lastmod>2020-04-24T17:16:12.524Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://smallqi.com/links/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
@@ -80,6 +87,13 @@
   
   <url>
     <loc>http://smallqi.com/tags/index.html</loc>
+    
+    <lastmod>2020-04-24T17:16:12.524Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smallqi.com/repository/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
