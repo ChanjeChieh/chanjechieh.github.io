@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://smallqi.com/2020/05/21/http/</loc>
+    <loc>http://smallqi.com/2020/05/21/HTTP%E7%AE%80%E4%BB%8B/</loc>
     
-    <lastmod>2020-05-21T10:22:18.697Z</lastmod>
+    <lastmod>2020-05-21T10:25:36.574Z</lastmod>
     
   </url>
   
@@ -86,7 +86,7 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/repository/index.html</loc>
+    <loc>http://smallqi.com/tags/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
@@ -100,7 +100,7 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/tags/index.html</loc>
+    <loc>http://smallqi.com/repository/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
