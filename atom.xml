@@ -48,28 +48,28 @@
   </entry>
   
   <entry>
-    <title>�������� UDP �� TCP ������</title>
+    <title>【计网】 UDP 与 TCP 的区别</title>
     <link href="http://smallqi.com/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
     <id>http://smallqi.com/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
     <published>2020-05-21T05:20:29.000Z</published>
-    <updated>2020-05-21T05:44:32.329Z</updated>
+    <updated>2020-05-21T07:38:57.198Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="һ������UDP"><a href="#һ������UDP" class="headerlink" title="һ������UDP"></a>һ������UDP</h2><p>UDP�ı��Ľṹ��<br> <img src="/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="UDP�ı��Ľṹ"></p><ul><li><p>Source Port Դ�˿�</p></li><li><p>Destination Port Ŀ��˿�</p></li><li><p>Length ����</p></li><li><p>CheckNum ��ż����ֵ</p><p>�򵥵ı��Ľṹ����ζ��UDP����TCP����֧�� �����ش����������ڵȿ��ƣ��ص㣺</p></li><li><p>���������</p></li><li><p>��ά������״̬��֧��ͬʱ�����ͻ��˴�����ͬ����Ϣ</p></li><li><p>���ݰ���ͷֻ��8���ֽڣ���������⿪����С</p></li><li><p>������֮�����������������ʡ��������ʺͻ�������</p></li><li><p>�����Ŭ��������������֤�ɿ�������������������Ҫά�ָ��ӵ�����״̬��</p></li><li><p>�����ģ�����Ӧ�ó����ύ�ı�����Ϣ���в�ֻ��ߺϲ���������ͷ����ֱ�ӽ����²�</p></li></ul><h2 id="����UDP��TCP������"><a href="#����UDP��TCP������" class="headerlink" title="����UDP��TCP������"></a>����UDP��TCP������</h2><p>���߶���OSI�߲�ģ����������е�Э�飬�����������£�<br>| TCP | UDP |<br>| — | —  |<br>| �������ӣ����������ֵ����ӹ��̣� | �����ӣ��ʺ���Ϣ�Ķಥ������һ�Զࣩ |<br>| �ɿ��Ը� | �ɿ��Ե� |<br>| �������кű�֤����˳�򽻸� | ���߱������� |<br>| �ٶȽ��������ֿ����ֶ����Ľ϶�ʱ�䣩 | �ٶȽϿ� |<br>| ��������ͷ��20���ֽڣ� | ��������ͷ��8���ֽڣ� |</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="一、关于UDP"><a href="#一、关于UDP" class="headerlink" title="一、关于UDP"></a>一、关于UDP</h2><p>UDP的报文结构：<br> <img src="/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="UDP的报文结构"></p><ul><li><p>Source Port 源端口</p></li><li><p>Destination Port 目标端口</p></li><li><p>Length 长度</p></li><li><p>CheckNum 奇偶检验值</p><p>简单的报文结构就意味着UDP不像TCP那样支持 错误重传、滑动窗口等控制，特点：</p></li><li><p>面向非连接</p></li><li><p>不维护连接状态，支持同时向多个客户端传输相同的信息</p></li><li><p>数据包报头只有8个字节，所以其额外开销较小</p></li><li><p>吞吐量之受限于数据生成速率、传输速率和机器性能</p></li><li><p>尽最大努力交付，即不保证可靠交付，所以主机不需要维持复杂的链接状态表</p></li><li><p>面向报文，不对应用程序提交的报文信息进行拆分或者合并，即添加头部后直接交给下层</p></li></ul><h2 id="二、UDP和TCP的区别"><a href="#二、UDP和TCP的区别" class="headerlink" title="二、UDP和TCP的区别"></a>二、UDP和TCP的区别</h2><p>两者都是OSI七层模型里运输层中的协议，两者区别如下：<br>| TCP | UDP |<br>| — | —  |<br>| 面向连接（有三次握手的连接过程） | 无连接（适合消息的多播发布，一对多） |<br>| 可靠性高 | 可靠性低 |<br>| 利用序列号保证数据顺序交付 | 不具备有序性 |<br>| 速度较慢（各种控制手段消耗较多时间） | 速度较快 |<br>| 重量级（头部20个字节） | 轻量级（头部8个字节） |</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h2 id=&quot;һ������UDP&quot;&gt;&lt;a href=&quot;#һ������UDP&quot; class=&quot;headerlink&quot; title=&quot;һ������UDP&quot;&gt;&lt;/a&gt;һ������UDP&lt;/h2&gt;&lt;p&gt;UDP�ı��Ľṹ��&lt;br&gt; &lt;img src=&quot;/2020/05/21/
+        &lt;h2 id=&quot;一、关于UDP&quot;&gt;&lt;a href=&quot;#一、关于UDP&quot; class=&quot;headerlink&quot; title=&quot;一、关于UDP&quot;&gt;&lt;/a&gt;一、关于UDP&lt;/h2&gt;&lt;p&gt;UDP的报文结构：&lt;br&gt; &lt;img src=&quot;/2020/05/21/UDP%E4%B8%8ETC
       
     
     </summary>
     
     
     
-      <category term="���������" scheme="http://smallqi.com/tags/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/"/>
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="��ϰ" scheme="http://smallqi.com/tags/%EF%BF%BD%EF%BF%BD%CF%B0/"/>
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
   </entry>
   
