@@ -18,20 +18,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>�������� Cookie �� Session������ | WangJie`s Blog</title>
-  <meta name="description" content="һ��Cookie1.1 Cookie ���1.2 Cookie �����úͷ��͹������ȿͻ��˷���һ�� HTTP ���󵽷���ˣ�Ȼ�����˷���һ������ Set-Cookie ͷ���� HTTP ��Ӧ���ͻ��ˣ����оͣ��ͻ����ٷ���һ������ Cookie ͷ���� HTTP ���󵽷���ˣ���ʱ ������ٷ���һ�� HT">
+  <title>【计网】 Cookie 和 Session的区别 | WangJie`s Blog</title>
+  <meta name="description" content="一、Cookie1.1 Cookie 简介1.2 Cookie 的设置和发送过程首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。  二、Session2.1 Session 简介Session 机制是一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="�������� Cookie �� Session������">
+<meta property="og:title" content="【计网】 Cookie 和 Session的区别">
 <meta property="og:url" content="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="WangJie&#96;s Blog">
-<meta property="og:description" content="һ��Cookie1.1 Cookie ���1.2 Cookie �����úͷ��͹������ȿͻ��˷���һ�� HTTP ���󵽷���ˣ�Ȼ�����˷���һ������ Set-Cookie ͷ���� HTTP ��Ӧ���ͻ��ˣ����оͣ��ͻ����ٷ���һ������ Cookie ͷ���� HTTP ���󵽷���ˣ���ʱ ������ٷ���һ�� HT">
+<meta property="og:description" content="一、Cookie1.1 Cookie 简介1.2 Cookie 的设置和发送过程首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。  二、Session2.1 Session 简介Session 机制是一">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
 <meta property="article:published_time" content="2020-05-21T10:28:07.000Z">
-<meta property="article:modified_time" content="2020-05-21T14:29:16.210Z">
+<meta property="article:modified_time" content="2020-05-21T14:31:08.873Z">
 <meta property="article:author" content="WangJie">
-<meta property="article:tag" content="���������">
-<meta property="article:tag" content="��ϰ">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="复习">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
   <!-- Canonical links -->
@@ -178,7 +178,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%EF%BF%BD%EF%BF%BD%CF%B0/" rel="tag">��ϰ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/" rel="tag">���������</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -188,7 +188,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E5%A4%8D%E4%B9%A0/" style="font-size: 14px;">复习</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.33px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.67px;">计算机网络</a> <a href="/tags/%EF%BF%BD%EF%BF%BD%CF%B0/" style="font-size: 13px;">��ϰ</a> <a href="/tags/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/" style="font-size: 13px;">���������</a>
+      <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E5%A4%8D%E4%B9%A0/" style="font-size: 14px;">复习</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.33px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 13.67px;">计算机网络</a>
     </div>
   </div>
 
@@ -216,7 +216,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" class="title">�������� Cookie �� Session������</a>
+                <a href="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" class="title">【计网】 Cookie 和 Session的区别</a>
               </p>
               <p class="item-date">
                 <time datetime="2020-05-21T10:28:07.000Z" itemprop="datePublished">2020-05-21</time>
@@ -304,7 +304,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      �������� Cookie �� Session������
+      【计网】 Cookie 和 Session的区别
     </h1>
   
 
@@ -320,7 +320,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/%EF%BF%BD%EF%BF%BD%CF%B0/" rel="tag">��ϰ</a>, <a class="article-tag-link" href="/tags/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/" rel="tag">���������</a>
+	<a class="article-tag-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a>, <a class="article-tag-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
   </span>
 
 
@@ -336,7 +336,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 51(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 251(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -346,11 +346,11 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="һ��Cookie"><a href="#һ��Cookie" class="headerlink" title="һ��Cookie"></a>һ��Cookie</h2><h3 id="1-1-Cookie-���"><a href="#1-1-Cookie-���" class="headerlink" title="1.1 Cookie ���"></a>1.1 Cookie ���</h3><h3 id="1-2-Cookie-�����uͷ��͹���"><a href="#1-2-Cookie-�����uͷ��͹���" class="headerlink" title="1.2 Cookie �����úͷ��͹���"></a>1.2 Cookie �����úͷ��͹���</h3><p>���ȿͻ��˷���һ�� HTTP ���󵽷���ˣ�Ȼ�����˷���һ������ Set-Cookie ͷ���� HTTP ��Ӧ���ͻ��ˣ����оͣ��ͻ����ٷ���һ������ Cookie ͷ���� HTTP ���󵽷���ˣ���ʱ ������ٷ���һ�� HTTP ��Ӧ���ͻ��ˡ�</p>
-<p><img src="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="Cookie�����ü����͹���"></p>
-<h2 id="����Session"><a href="#����Session" class="headerlink" title="����Session"></a>����Session</h2><h3 id="2-1-Session-���"><a href="#2-1-Session-���" class="headerlink" title="2.1 Session ���"></a>2.1 Session ���</h3><p>Session ������һ���ٷ���˵Ļ��ƣ�����������һ��������ɢ�б��Ľṹ������Ϣ����������ҪΪĳ���ͻ��˵����󴴽�һ�� session ��ʱ�򣬷��������ȼ������������Ƿ��Ѿ�����һ�� session ��ʶ��session id��������Ѿ���������֤����ǰ������ session������˱�ʹ����� session id ��ɢ�б��м�������Ӧ�� session �����������������Ϊ����ͻ��˴���һ�� session��������һ����Ӧ�� session id��</p>
+        <h2 id="一、Cookie"><a href="#一、Cookie" class="headerlink" title="一、Cookie"></a>一、Cookie</h2><h3 id="1-1-Cookie-简介"><a href="#1-1-Cookie-简介" class="headerlink" title="1.1 Cookie 简介"></a>1.1 Cookie 简介</h3><h3 id="1-2-Cookie-的设置和发送过程"><a href="#1-2-Cookie-的设置和发送过程" class="headerlink" title="1.2 Cookie 的设置和发送过程"></a>1.2 Cookie 的设置和发送过程</h3><p>首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。</p>
+<p><img src="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="Cookie的设置及发送过程"></p>
+<h2 id="二、Session"><a href="#二、Session" class="headerlink" title="二、Session"></a>二、Session</h2><h3 id="2-1-Session-简介"><a href="#2-1-Session-简介" class="headerlink" title="2.1 Session 简介"></a>2.1 Session 简介</h3><p>Session 机制是一种再服务端的机制，服务器采用一种类似于散列表的结构保存信息，当程序需要为某个客户端的请求创建一个 session 的时候，服务器首先检查这个请求里是否已经包含一个 session 标识（session id），如果已经包含，则证明以前创建过 session，服务端便使用这个 session id 到散列表中检索出相应的 session 来；如果不包含，就为这个客户端创建一个 session，并生成一个相应的 session id，</p>
 <hr>
-<p>�����¡���</p>
+<p>待更新……</p>
 
       
     </div>
@@ -360,7 +360,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" title="�������� Cookie �� Session������" target="_blank" rel="external">http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</a>
+      <a href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" title="【计网】 Cookie 和 Session的区别" target="_blank" rel="external">http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</a>
     </li>
     
     <li class="post-copyright-license">
