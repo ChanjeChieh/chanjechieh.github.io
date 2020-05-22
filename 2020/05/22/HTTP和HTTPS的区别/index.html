@@ -27,7 +27,7 @@
 <meta property="og:description" content="一、HTTPS1.1 HTTPS 简介HTTPS 是以计算机网络安全通信为目的的传输协议，在 HTTP 下加入了 SSL 层，从而具有了保护交换数据隐私，以及完整性，提供对网站服务器身份认证的功能，或者说是 安全版的 HTTP。 1.2 SSL 简介SSL 的全称是 Security Sockets Layer，安全套接层，是一种为网络通信提供安全及数据完整性的一种安全协议，位于 TCP 和各 应">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-22T07:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-22T07:31:45.821Z">
+<meta property="article:modified_time" content="2020-05-22T07:36:31.570Z">
 <meta property="article:author" content="WangJie">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="复习">
@@ -176,7 +176,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">7</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -214,10 +214,10 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" class="title">Socket简介</a>
+                <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" class="title">【计网】 Socket 简介</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-22T07:34:00.000Z" itemprop="datePublished">2020-05-22</time>
+                <time datetime="2020-05-22T07:35:00.000Z" itemprop="datePublished">2020-05-22</time>
               </p>
             </div>
           </li>
@@ -360,7 +360,31 @@
 <li>服务器收到网站发送的数据后，会使用网站本身的私钥将信息解密确定密码，再使用这个密码解密握手信息，并验证哈希是否与 WEB 浏览器一致，再使用密码加密新的信息发给浏览器</li>
 <li>客户端浏览器解密并计算经密码加密的握手信息，若与服务器发送的哈希值一致，随便服务器和浏览器会使用之前浏览器之前生成的随机密码和对称加密算法进行加密并交换数据</li>
 </ol>
-<h1 id="二、HTTP-和-HTTPS-的区别"><a href="#二、HTTP-和-HTTPS-的区别" class="headerlink" title="二、HTTP 和 HTTPS 的区别"></a>二、HTTP 和 HTTPS 的区别</h1><p>如下表：<br>| HTTP | HTTPS |<br>| — | — |<br>| 不需要 | 需要到 CA 申请证书（花费） |<br>|明文传输|密文传输（使用 SSL 加密传输协议）|<br>| 80 端口 | 443 端口 |<br>| 无状态 | HTTP+加密+认证+完整性保护  |</p>
+<h1 id="二、HTTP-和-HTTPS-的区别"><a href="#二、HTTP-和-HTTPS-的区别" class="headerlink" title="二、HTTP 和 HTTPS 的区别"></a>二、HTTP 和 HTTPS 的区别</h1><p>如下表：</p>
+<table>
+<thead>
+<tr>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不需要</td>
+<td>需要到 CA 申请证书（花费）</td>
+</tr>
+<tr>
+<td>明文传输</td>
+<td>密文传输（使用 SSL 加密传输协议）</td>
+</tr>
+<tr>
+<td>80 端口</td>
+<td>443 端口</td>
+</tr>
+<tr>
+<td>无状态</td>
+<td>HTTP+加密+认证+完整性保护</td>
+</tr>
+</tbody></table>
 <p>看起来 HTTPS 更安全，但实际上人们习惯在访问某个页面时直接在浏览器中直接输入网站域名，这时，浏览器会默认填充 http:// </p>
 
       
@@ -418,7 +442,7 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" title="Socket简介"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" title="【计网】 Socket 简介"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     

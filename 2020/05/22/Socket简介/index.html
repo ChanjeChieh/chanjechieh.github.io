@@ -18,16 +18,23 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Socket简介 | WangJie`s Blog</title>
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Socket简介">
+  <title>【计网】 Socket 简介 | WangJie`s Blog</title>
+  <meta name="description" content="两个进程中若想要通信，第一件事是要做到能够唯一表示一个进程，在本地进程中可以使用 pid，而到网络中继续使用 pid 的话就可能会发生冲突。因为 IP 地址唯一确定一台电脑，TCP 端口唯一确定一个应用进程，所以可以使用 IP 地址 + TCP 端口号来实现在网络中唯一标识一个进程。 一、什么是 Socket看下图我们就可以明白：socket 就是 TCP&#x2F;IP 协议的抽象，让应用层能方便使用 T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【计网】 Socket 简介">
 <meta property="og:url" content="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="WangJie&#96;s Blog">
+<meta property="og:description" content="两个进程中若想要通信，第一件事是要做到能够唯一表示一个进程，在本地进程中可以使用 pid，而到网络中继续使用 pid 的话就可能会发生冲突。因为 IP 地址唯一确定一台电脑，TCP 端口唯一确定一个应用进程，所以可以使用 IP 地址 + TCP 端口号来实现在网络中唯一标识一个进程。 一、什么是 Socket看下图我们就可以明白：socket 就是 TCP&#x2F;IP 协议的抽象，让应用层能方便使用 T">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-22T07:34:00.000Z">
-<meta property="article:modified_time" content="2020-05-22T07:34:00.439Z">
+<meta property="og:image" content="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/1.webp">
+<meta property="og:image" content="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/2.webp">
+<meta property="article:published_time" content="2020-05-22T07:35:00.000Z">
+<meta property="article:modified_time" content="2020-05-22T13:30:16.099Z">
 <meta property="article:author" content="WangJie">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="复习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/1.webp">
   <!-- Canonical links -->
   <link rel="canonical" href="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/index.html">
   
@@ -172,7 +179,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">7</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -210,10 +217,10 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" class="title">Socket简介</a>
+                <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" class="title">【计网】 Socket 简介</a>
               </p>
               <p class="item-date">
-                <time datetime="2020-05-22T07:34:00.000Z" itemprop="datePublished">2020-05-22</time>
+                <time datetime="2020-05-22T07:35:00.000Z" itemprop="datePublished">2020-05-22</time>
               </p>
             </div>
           </li>
@@ -298,7 +305,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Socket简介
+      【计网】 Socket 简介
     </h1>
   
 
@@ -307,11 +314,16 @@
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
 	<a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" class="article-date">
-	  <time datetime="2020-05-22T07:34:00.000Z" itemprop="datePublished">2020-05-22</time>
+	  <time datetime="2020-05-22T07:35:00.000Z" itemprop="datePublished">2020-05-22</time>
 	</a>
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a>, <a class="article-tag-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+  </span>
+
 
         
 	<span class="article-read hidden-xs">
@@ -325,7 +337,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 0(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 422(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -335,7 +347,21 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        
+        <p>两个进程中若想要通信，第一件事是要做到能够唯一表示一个进程，在本地进程中可以使用 pid，而到网络中继续使用 pid 的话就可能会发生冲突。因为 IP 地址唯一确定一台电脑，TCP 端口唯一确定一个应用进程，所以可以使用 IP 地址 + TCP 端口号来实现在网络中唯一标识一个进程。</p>
+<h1 id="一、什么是-Socket"><a href="#一、什么是-Socket" class="headerlink" title="一、什么是 Socket"></a>一、什么是 Socket</h1><p>看下图我们就可以明白：socket 就是 TCP/IP 协议的抽象，让应用层能方便使用 TCP/IP 协议。</p>
+<p><img src="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/1.webp" alt></p>
+<h1 id="二、Socket-通信流程"><a href="#二、Socket-通信流程" class="headerlink" title="二、Socket 通信流程"></a>二、Socket 通信流程</h1><p>（以使用 TCP 通信协议的 Socket 为例）</p>
+<ol>
+<li>服务器首先创建 Socket</li>
+<li>为 Socket 绑定 IP 地址和端口号</li>
+<li>服务器的 Socket 就会监听这个端口号的请求，随时准备客户端发来的连接</li>
+<li>客户端创建一个 Socket，并根据服务器的 IP 和端口号尝试连接服务器的 Socket</li>
+<li>服务器接收到客户端的 Socket 请求被动地打开，开始接收客户端的请求，直到客户端返回连接信息，这时服务器的 Socket 进入堵塞（accept方法需要一直等待客户端返回连接信息后才返回，同时开始接收下一个客户端的连接请求）状态</li>
+<li>客户端在连接成功后就会向服务器发送连接状态信息，服务器端在接收到客户端的连接信息后将 accept 方法返回并提示连接成功，之后客户端便可以向 Socket 写入信息</li>
+<li>客户端发送完数据后就会关闭 Socket，服务端同</li>
+</ol>
+<p><img src="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/2.webp" alt></p>
+
       
     </div>
     <div class="article-footer">
@@ -344,7 +370,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" title="Socket简介" target="_blank" rel="external">http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/</a>
+      <a href="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/" title="【计网】 Socket 简介" target="_blank" rel="external">http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/</a>
     </li>
     
     <li class="post-copyright-license">

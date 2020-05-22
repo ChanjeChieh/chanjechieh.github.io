@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-22T07:34:00.439Z</updated>
+  <updated>2020-05-22T13:30:16.099Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -17,17 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Socket简介</title>
+    <title>【计网】 Socket 简介</title>
     <link href="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/"/>
     <id>http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/</id>
-    <published>2020-05-22T07:34:00.000Z</published>
-    <updated>2020-05-22T07:34:00.439Z</updated>
+    <published>2020-05-22T07:35:00.000Z</published>
+    <updated>2020-05-22T13:30:16.099Z</updated>
+    
+    <content type="html"><![CDATA[<p>两个进程中若想要通信，第一件事是要做到能够唯一表示一个进程，在本地进程中可以使用 pid，而到网络中继续使用 pid 的话就可能会发生冲突。因为 IP 地址唯一确定一台电脑，TCP 端口唯一确定一个应用进程，所以可以使用 IP 地址 + TCP 端口号来实现在网络中唯一标识一个进程。</p><h1 id="一、什么是-Socket"><a href="#一、什么是-Socket" class="headerlink" title="一、什么是 Socket"></a>一、什么是 Socket</h1><p>看下图我们就可以明白：socket 就是 TCP/IP 协议的抽象，让应用层能方便使用 TCP/IP 协议。</p><p><img src="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/1.webp" alt></p><h1 id="二、Socket-通信流程"><a href="#二、Socket-通信流程" class="headerlink" title="二、Socket 通信流程"></a>二、Socket 通信流程</h1><p>（以使用 TCP 通信协议的 Socket 为例）</p><ol><li>服务器首先创建 Socket</li><li>为 Socket 绑定 IP 地址和端口号</li><li>服务器的 Socket 就会监听这个端口号的请求，随时准备客户端发来的连接</li><li>客户端创建一个 Socket，并根据服务器的 IP 和端口号尝试连接服务器的 Socket</li><li>服务器接收到客户端的 Socket 请求被动地打开，开始接收客户端的请求，直到客户端返回连接信息，这时服务器的 Socket 进入堵塞（accept方法需要一直等待客户端返回连接信息后才返回，同时开始接收下一个客户端的连接请求）状态</li><li>客户端在连接成功后就会向服务器发送连接状态信息，服务器端在接收到客户端的连接信息后将 accept 方法返回并提示连接成功，之后客户端便可以向 Socket 写入信息</li><li>客户端发送完数据后就会关闭 Socket，服务端同</li></ol><p><img src="/2020/05/22/Socket%E7%AE%80%E4%BB%8B/2.webp" alt></p>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;p&gt;两个进程中若想要通信，第一件事是要做到能够唯一表示一个进程，在本地进程中可以使用 pid，而到网络中继续使用 pid 的话就可能会发生冲突。因为 IP 地址唯一确定一台电脑，TCP 端口唯一确定一个应用进程，所以可以使用 IP 地址 + TCP 端口号来实现在网络中唯一标识
+      
     
     </summary>
     
     
+    
+      <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
   </entry>
   
@@ -36,9 +47,9 @@
     <link href="http://smallqi.com/2020/05/22/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
     <id>http://smallqi.com/2020/05/22/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
     <published>2020-05-22T07:00:00.000Z</published>
-    <updated>2020-05-22T07:31:45.821Z</updated>
+    <updated>2020-05-22T07:36:31.570Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="一、HTTPS"><a href="#一、HTTPS" class="headerlink" title="一、HTTPS"></a>一、HTTPS</h1><h3 id="1-1-HTTPS-简介"><a href="#1-1-HTTPS-简介" class="headerlink" title="1.1 HTTPS 简介"></a>1.1 HTTPS 简介</h3><p>HTTPS 是以计算机网络安全通信为目的的传输协议，在 HTTP 下加入了 SSL 层，从而具有了保护交换数据隐私，以及完整性，提供对网站服务器身份认证的功能，或者说是 安全版的 HTTP。</p><h3 id="1-2-SSL-简介"><a href="#1-2-SSL-简介" class="headerlink" title="1.2 SSL 简介"></a>1.2 SSL 简介</h3><p>SSL 的全称是 Security Sockets Layer，安全套接层，是一种为网络通信提供安全及数据完整性的一种安全协议，位于 TCP 和各 应用层 之间，是操作系统对外提供的 API，SSL3.0 版本之后更名为 TLS，采用 身份验证 和 数据加密 保证网络通信的安全和数据的完整性。</p><h4 id="1-2-1-加密的方法"><a href="#1-2-1-加密的方法" class="headerlink" title="1.2.1 加密的方法"></a>1.2.1 加密的方法</h4><ul><li>对称加密：加密和解密都是用同一个密钥</li><li>非对称加密：加密和解密使用不同密钥（即 公钥 和 私钥）</li><li>哈希算法：将任意长度的信息转换为固定长度的值（MD5）</li><li>数字签名：在一段数据后加一段哈希后的值</li></ul><h4 id="1-2-2-HTTPS-数据传输流程"><a href="#1-2-2-HTTPS-数据传输流程" class="headerlink" title="1.2.2 HTTPS 数据传输流程"></a>1.2.2 HTTPS 数据传输流程</h4><p>在进行数据传输前，网站服务器会和 WEB 浏览器进行一次握手，在握手时验证加密信息。  </p><ol><li>浏览器将支持的加密算法信息发给服务器</li><li>服务器根据浏览器所支持的加密方式在自己支持的加密方式中选出一套加密算法和哈希算法，将要验证的信息以证书的形式发给 WEB 浏览器  </li><li>浏览器收到证书后会验证证书的合法性，若信任，WEB 浏览器会随机生成一段密码，并使用证书中的公钥加密，再使用约定好的哈希算法握手，并生成随机数对消息进行加密</li><li>服务器收到网站发送的数据后，会使用网站本身的私钥将信息解密确定密码，再使用这个密码解密握手信息，并验证哈希是否与 WEB 浏览器一致，再使用密码加密新的信息发给浏览器</li><li>客户端浏览器解密并计算经密码加密的握手信息，若与服务器发送的哈希值一致，随便服务器和浏览器会使用之前浏览器之前生成的随机密码和对称加密算法进行加密并交换数据</li></ol><h1 id="二、HTTP-和-HTTPS-的区别"><a href="#二、HTTP-和-HTTPS-的区别" class="headerlink" title="二、HTTP 和 HTTPS 的区别"></a>二、HTTP 和 HTTPS 的区别</h1><p>如下表：<br>| HTTP | HTTPS |<br>| — | — |<br>| 不需要 | 需要到 CA 申请证书（花费） |<br>|明文传输|密文传输（使用 SSL 加密传输协议）|<br>| 80 端口 | 443 端口 |<br>| 无状态 | HTTP+加密+认证+完整性保护  |</p><p>看起来 HTTPS 更安全，但实际上人们习惯在访问某个页面时直接在浏览器中直接输入网站域名，这时，浏览器会默认填充 http:// </p>]]></content>
+    <content type="html"><![CDATA[<h1 id="一、HTTPS"><a href="#一、HTTPS" class="headerlink" title="一、HTTPS"></a>一、HTTPS</h1><h3 id="1-1-HTTPS-简介"><a href="#1-1-HTTPS-简介" class="headerlink" title="1.1 HTTPS 简介"></a>1.1 HTTPS 简介</h3><p>HTTPS 是以计算机网络安全通信为目的的传输协议，在 HTTP 下加入了 SSL 层，从而具有了保护交换数据隐私，以及完整性，提供对网站服务器身份认证的功能，或者说是 安全版的 HTTP。</p><h3 id="1-2-SSL-简介"><a href="#1-2-SSL-简介" class="headerlink" title="1.2 SSL 简介"></a>1.2 SSL 简介</h3><p>SSL 的全称是 Security Sockets Layer，安全套接层，是一种为网络通信提供安全及数据完整性的一种安全协议，位于 TCP 和各 应用层 之间，是操作系统对外提供的 API，SSL3.0 版本之后更名为 TLS，采用 身份验证 和 数据加密 保证网络通信的安全和数据的完整性。</p><h4 id="1-2-1-加密的方法"><a href="#1-2-1-加密的方法" class="headerlink" title="1.2.1 加密的方法"></a>1.2.1 加密的方法</h4><ul><li>对称加密：加密和解密都是用同一个密钥</li><li>非对称加密：加密和解密使用不同密钥（即 公钥 和 私钥）</li><li>哈希算法：将任意长度的信息转换为固定长度的值（MD5）</li><li>数字签名：在一段数据后加一段哈希后的值</li></ul><h4 id="1-2-2-HTTPS-数据传输流程"><a href="#1-2-2-HTTPS-数据传输流程" class="headerlink" title="1.2.2 HTTPS 数据传输流程"></a>1.2.2 HTTPS 数据传输流程</h4><p>在进行数据传输前，网站服务器会和 WEB 浏览器进行一次握手，在握手时验证加密信息。  </p><ol><li>浏览器将支持的加密算法信息发给服务器</li><li>服务器根据浏览器所支持的加密方式在自己支持的加密方式中选出一套加密算法和哈希算法，将要验证的信息以证书的形式发给 WEB 浏览器  </li><li>浏览器收到证书后会验证证书的合法性，若信任，WEB 浏览器会随机生成一段密码，并使用证书中的公钥加密，再使用约定好的哈希算法握手，并生成随机数对消息进行加密</li><li>服务器收到网站发送的数据后，会使用网站本身的私钥将信息解密确定密码，再使用这个密码解密握手信息，并验证哈希是否与 WEB 浏览器一致，再使用密码加密新的信息发给浏览器</li><li>客户端浏览器解密并计算经密码加密的握手信息，若与服务器发送的哈希值一致，随便服务器和浏览器会使用之前浏览器之前生成的随机密码和对称加密算法进行加密并交换数据</li></ol><h1 id="二、HTTP-和-HTTPS-的区别"><a href="#二、HTTP-和-HTTPS-的区别" class="headerlink" title="二、HTTP 和 HTTPS 的区别"></a>二、HTTP 和 HTTPS 的区别</h1><p>如下表：</p><table><thead><tr><th>HTTP</th><th>HTTPS</th></tr></thead><tbody><tr><td>不需要</td><td>需要到 CA 申请证书（花费）</td></tr><tr><td>明文传输</td><td>密文传输（使用 SSL 加密传输协议）</td></tr><tr><td>80 端口</td><td>443 端口</td></tr><tr><td>无状态</td><td>HTTP+加密+认证+完整性保护</td></tr></tbody></table><p>看起来 HTTPS 更安全，但实际上人们习惯在访问某个页面时直接在浏览器中直接输入网站域名，这时，浏览器会默认填充 http:// </p>]]></content>
     
     <summary type="html">
     
