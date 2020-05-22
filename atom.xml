@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-22T06:58:07.776Z</updated>
+  <updated>2020-05-22T07:34:00.439Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -17,20 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【计网】 Cookie 和 Session 的区别</title>
-    <link href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-    <published>2020-05-21T10:28:07.000Z</published>
-    <updated>2020-05-22T06:58:07.776Z</updated>
+    <title>Socket简介</title>
+    <link href="http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/"/>
+    <id>http://smallqi.com/2020/05/22/Socket%E7%AE%80%E4%BB%8B/</id>
+    <published>2020-05-22T07:34:00.000Z</published>
+    <updated>2020-05-22T07:34:00.439Z</updated>
     
-    <content type="html"><![CDATA[<p>因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和</p><h1 id="一、Cookie"><a href="#一、Cookie" class="headerlink" title="一、Cookie"></a>一、Cookie</h1><h3 id="1-1-Cookie-简介"><a href="#1-1-Cookie-简介" class="headerlink" title="1.1 Cookie 简介"></a>1.1 Cookie 简介</h3><p>Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。</p><p>或者说：</p><p>当用户访问一个支持 Cookie 的网站时，用户会提供用户名、密码等个人信息给服务器，而服务器在向客户端发送超文本的同时，会将这些信息放在 Response-Header 中，这时，客户端会将这些信息统一存在一个位置，以后客户端再发送请求会将这些信息（Cookie）放在请求头一并发送。</p><h3 id="1-2-Cookie-的设置和发送过程"><a href="#1-2-Cookie-的设置和发送过程" class="headerlink" title="1.2 Cookie 的设置和发送过程"></a>1.2 Cookie 的设置和发送过程</h3><p>首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。</p><p><img src="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="Cookie的设置及发送过程"></p><h1 id="二、Session"><a href="#二、Session" class="headerlink" title="二、Session"></a>二、Session</h1><h3 id="2-1-Session-简介"><a href="#2-1-Session-简介" class="headerlink" title="2.1 Session 简介"></a>2.1 Session 简介</h3><p>Session 机制是一种在服务端的机制，服务器采用一种类似于散列表的结构保存信息，当程序需要为某个客户端的请求创建一个 session 的时候，服务器首先检查这个请求里是否已经包含一个 session 标识（session id，是一个既不重复也不容易被找到生成规律的序号）。如果已经包含，则证明以前创建过 session，服务端便使用这个 session id 到散列表中检索出相应的 session 来；如果不包含，就为这个客户端创建一个 session，并生成一个相应的 session id，</p><h3 id="2-2-Session-的两种实现方式"><a href="#2-2-Session-的两种实现方式" class="headerlink" title="2.2 Session 的两种实现方式"></a>2.2 Session 的两种实现方式</h3><ol><li><p>使用 Cookie 实现：<br>服务器给每个 Session 分配一个唯一的 JSESSIONID 并通过 Cookie 发送给客户端，当客户端发起新的请求时，将在新的请求头中携带这个 id，这样，服务器就能找到与这个客户端相应的 Session</p><ol start="2"><li>使用 URL 回写实现：<br>服务器在发送给浏览器页面的所有页面中都携带 JSESSIONID 的参数，这样，使用浏览器点击任意链接都会把 JSESSIONID 一同发送</li></ol></li></ol><p>不管使用哪种方式，都需要 JSEESIONID。</p><h1 id="三、Cookie-和-Session-的区别"><a href="#三、Cookie-和-Session-的区别" class="headerlink" title="三、Cookie 和 Session 的区别"></a>三、Cookie 和 Session 的区别</h1><ol><li>Cookie 数据存放在客户的浏览器上，SESSION 数据存放在服务器上  </li><li>Session 较 Cookie 更为安全：人们可以分析存放在本地的 Cookie 并进行 Cookie 欺骗</li><li>Session 会在一定时间内保存在服务器上，当页面访问量较多时会影响服务器性能，若考虑到服务器性能，应使用 Cookie</li></ol>]]></content>
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>【计网】 HTTP 和 HTTPS 的区别</title>
+    <link href="http://smallqi.com/2020/05/22/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://smallqi.com/2020/05/22/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2020-05-22T07:00:00.000Z</published>
+    <updated>2020-05-22T07:31:45.821Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、HTTPS"><a href="#一、HTTPS" class="headerlink" title="一、HTTPS"></a>一、HTTPS</h1><h3 id="1-1-HTTPS-简介"><a href="#1-1-HTTPS-简介" class="headerlink" title="1.1 HTTPS 简介"></a>1.1 HTTPS 简介</h3><p>HTTPS 是以计算机网络安全通信为目的的传输协议，在 HTTP 下加入了 SSL 层，从而具有了保护交换数据隐私，以及完整性，提供对网站服务器身份认证的功能，或者说是 安全版的 HTTP。</p><h3 id="1-2-SSL-简介"><a href="#1-2-SSL-简介" class="headerlink" title="1.2 SSL 简介"></a>1.2 SSL 简介</h3><p>SSL 的全称是 Security Sockets Layer，安全套接层，是一种为网络通信提供安全及数据完整性的一种安全协议，位于 TCP 和各 应用层 之间，是操作系统对外提供的 API，SSL3.0 版本之后更名为 TLS，采用 身份验证 和 数据加密 保证网络通信的安全和数据的完整性。</p><h4 id="1-2-1-加密的方法"><a href="#1-2-1-加密的方法" class="headerlink" title="1.2.1 加密的方法"></a>1.2.1 加密的方法</h4><ul><li>对称加密：加密和解密都是用同一个密钥</li><li>非对称加密：加密和解密使用不同密钥（即 公钥 和 私钥）</li><li>哈希算法：将任意长度的信息转换为固定长度的值（MD5）</li><li>数字签名：在一段数据后加一段哈希后的值</li></ul><h4 id="1-2-2-HTTPS-数据传输流程"><a href="#1-2-2-HTTPS-数据传输流程" class="headerlink" title="1.2.2 HTTPS 数据传输流程"></a>1.2.2 HTTPS 数据传输流程</h4><p>在进行数据传输前，网站服务器会和 WEB 浏览器进行一次握手，在握手时验证加密信息。  </p><ol><li>浏览器将支持的加密算法信息发给服务器</li><li>服务器根据浏览器所支持的加密方式在自己支持的加密方式中选出一套加密算法和哈希算法，将要验证的信息以证书的形式发给 WEB 浏览器  </li><li>浏览器收到证书后会验证证书的合法性，若信任，WEB 浏览器会随机生成一段密码，并使用证书中的公钥加密，再使用约定好的哈希算法握手，并生成随机数对消息进行加密</li><li>服务器收到网站发送的数据后，会使用网站本身的私钥将信息解密确定密码，再使用这个密码解密握手信息，并验证哈希是否与 WEB 浏览器一致，再使用密码加密新的信息发给浏览器</li><li>客户端浏览器解密并计算经密码加密的握手信息，若与服务器发送的哈希值一致，随便服务器和浏览器会使用之前浏览器之前生成的随机密码和对称加密算法进行加密并交换数据</li></ol><h1 id="二、HTTP-和-HTTPS-的区别"><a href="#二、HTTP-和-HTTPS-的区别" class="headerlink" title="二、HTTP 和 HTTPS 的区别"></a>二、HTTP 和 HTTPS 的区别</h1><p>如下表：<br>| HTTP | HTTPS |<br>| — | — |<br>| 不需要 | 需要到 CA 申请证书（花费） |<br>|明文传输|密文传输（使用 SSL 加密传输协议）|<br>| 80 端口 | 443 端口 |<br>| 无状态 | HTTP+加密+认证+完整性保护  |</p><p>看起来 HTTPS 更安全，但实际上人们习惯在访问某个页面时直接在浏览器中直接输入网站域名，这时，浏览器会默认填充 http:// </p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和&lt;/p&gt;
-&lt;h1 id=&quot;一、Cookie&quot;&gt;&lt;a href=&quot;#一、Cookie&quot; class=&quot;headerlink&quot; title=&quot;一、Cookie&quot;&gt;&lt;/a&gt;一、Cookie
+        &lt;h1 id=&quot;一、HTTPS&quot;&gt;&lt;a href=&quot;#一、HTTPS&quot; class=&quot;headerlink&quot; title=&quot;一、HTTPS&quot;&gt;&lt;/a&gt;一、HTTPS&lt;/h1&gt;&lt;h3 id=&quot;1-1-HTTPS-简介&quot;&gt;&lt;a href=&quot;#1-1-HTTPS-简介&quot; class=&quot;
       
     
     </summary>
@@ -45,12 +59,12 @@
   
   <entry>
     <title>【计网】 Cookie 和 Session 的区别</title>
-    <link href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20%E5%89%AF%E6%9C%AC/"/>
-    <id>http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20%E5%89%AF%E6%9C%AC/</id>
+    <link href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
     <published>2020-05-21T10:28:07.000Z</published>
     <updated>2020-05-22T06:58:07.776Z</updated>
     
-    <content type="html"><![CDATA[<p>因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和</p><h1 id="一、Cookie"><a href="#一、Cookie" class="headerlink" title="一、Cookie"></a>一、Cookie</h1><h3 id="1-1-Cookie-简介"><a href="#1-1-Cookie-简介" class="headerlink" title="1.1 Cookie 简介"></a>1.1 Cookie 简介</h3><p>Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。</p><p>或者说：</p><p>当用户访问一个支持 Cookie 的网站时，用户会提供用户名、密码等个人信息给服务器，而服务器在向客户端发送超文本的同时，会将这些信息放在 Response-Header 中，这时，客户端会将这些信息统一存在一个位置，以后客户端再发送请求会将这些信息（Cookie）放在请求头一并发送。</p><h3 id="1-2-Cookie-的设置和发送过程"><a href="#1-2-Cookie-的设置和发送过程" class="headerlink" title="1.2 Cookie 的设置和发送过程"></a>1.2 Cookie 的设置和发送过程</h3><p>首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。</p><p><img src="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%20-%20%E5%89%AF%E6%9C%AC/1.png" alt="Cookie的设置及发送过程"></p><h1 id="二、Session"><a href="#二、Session" class="headerlink" title="二、Session"></a>二、Session</h1><h3 id="2-1-Session-简介"><a href="#2-1-Session-简介" class="headerlink" title="2.1 Session 简介"></a>2.1 Session 简介</h3><p>Session 机制是一种在服务端的机制，服务器采用一种类似于散列表的结构保存信息，当程序需要为某个客户端的请求创建一个 session 的时候，服务器首先检查这个请求里是否已经包含一个 session 标识（session id，是一个既不重复也不容易被找到生成规律的序号）。如果已经包含，则证明以前创建过 session，服务端便使用这个 session id 到散列表中检索出相应的 session 来；如果不包含，就为这个客户端创建一个 session，并生成一个相应的 session id，</p><h3 id="2-2-Session-的两种实现方式"><a href="#2-2-Session-的两种实现方式" class="headerlink" title="2.2 Session 的两种实现方式"></a>2.2 Session 的两种实现方式</h3><ol><li><p>使用 Cookie 实现：<br>服务器给每个 Session 分配一个唯一的 JSESSIONID 并通过 Cookie 发送给客户端，当客户端发起新的请求时，将在新的请求头中携带这个 id，这样，服务器就能找到与这个客户端相应的 Session</p><ol start="2"><li>使用 URL 回写实现：<br>服务器在发送给浏览器页面的所有页面中都携带 JSESSIONID 的参数，这样，使用浏览器点击任意链接都会把 JSESSIONID 一同发送</li></ol></li></ol><p>不管使用哪种方式，都需要 JSEESIONID。</p><h1 id="三、Cookie-和-Session-的区别"><a href="#三、Cookie-和-Session-的区别" class="headerlink" title="三、Cookie 和 Session 的区别"></a>三、Cookie 和 Session 的区别</h1><ol><li>Cookie 数据存放在客户的浏览器上，SESSION 数据存放在服务器上  </li><li>Session 较 Cookie 更为安全：人们可以分析存放在本地的 Cookie 并进行 Cookie 欺骗</li><li>Session 会在一定时间内保存在服务器上，当页面访问量较多时会影响服务器性能，若考虑到服务器性能，应使用 Cookie</li></ol>]]></content>
+    <content type="html"><![CDATA[<p>因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和</p><h1 id="一、Cookie"><a href="#一、Cookie" class="headerlink" title="一、Cookie"></a>一、Cookie</h1><h3 id="1-1-Cookie-简介"><a href="#1-1-Cookie-简介" class="headerlink" title="1.1 Cookie 简介"></a>1.1 Cookie 简介</h3><p>Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。</p><p>或者说：</p><p>当用户访问一个支持 Cookie 的网站时，用户会提供用户名、密码等个人信息给服务器，而服务器在向客户端发送超文本的同时，会将这些信息放在 Response-Header 中，这时，客户端会将这些信息统一存在一个位置，以后客户端再发送请求会将这些信息（Cookie）放在请求头一并发送。</p><h3 id="1-2-Cookie-的设置和发送过程"><a href="#1-2-Cookie-的设置和发送过程" class="headerlink" title="1.2 Cookie 的设置和发送过程"></a>1.2 Cookie 的设置和发送过程</h3><p>首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。</p><p><img src="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="Cookie的设置及发送过程"></p><h1 id="二、Session"><a href="#二、Session" class="headerlink" title="二、Session"></a>二、Session</h1><h3 id="2-1-Session-简介"><a href="#2-1-Session-简介" class="headerlink" title="2.1 Session 简介"></a>2.1 Session 简介</h3><p>Session 机制是一种在服务端的机制，服务器采用一种类似于散列表的结构保存信息，当程序需要为某个客户端的请求创建一个 session 的时候，服务器首先检查这个请求里是否已经包含一个 session 标识（session id，是一个既不重复也不容易被找到生成规律的序号）。如果已经包含，则证明以前创建过 session，服务端便使用这个 session id 到散列表中检索出相应的 session 来；如果不包含，就为这个客户端创建一个 session，并生成一个相应的 session id，</p><h3 id="2-2-Session-的两种实现方式"><a href="#2-2-Session-的两种实现方式" class="headerlink" title="2.2 Session 的两种实现方式"></a>2.2 Session 的两种实现方式</h3><ol><li><p>使用 Cookie 实现：<br>服务器给每个 Session 分配一个唯一的 JSESSIONID 并通过 Cookie 发送给客户端，当客户端发起新的请求时，将在新的请求头中携带这个 id，这样，服务器就能找到与这个客户端相应的 Session</p><ol start="2"><li>使用 URL 回写实现：<br>服务器在发送给浏览器页面的所有页面中都携带 JSESSIONID 的参数，这样，使用浏览器点击任意链接都会把 JSESSIONID 一同发送</li></ol></li></ol><p>不管使用哪种方式，都需要 JSEESIONID。</p><h1 id="三、Cookie-和-Session-的区别"><a href="#三、Cookie-和-Session-的区别" class="headerlink" title="三、Cookie 和 Session 的区别"></a>三、Cookie 和 Session 的区别</h1><ol><li>Cookie 数据存放在客户的浏览器上，SESSION 数据存放在服务器上  </li><li>Session 较 Cookie 更为安全：人们可以分析存放在本地的 Cookie 并进行 Cookie 欺骗</li><li>Session 会在一定时间内保存在服务器上，当页面访问量较多时会影响服务器性能，若考虑到服务器性能，应使用 Cookie</li></ol>]]></content>
     
     <summary type="html">
     
