@@ -96,6 +96,35 @@
   </entry>
   
   <entry>
+    <title>【Java】关于JVM</title>
+    <link href="http://smallqi.com/2020/05/21/%E5%85%B3%E4%BA%8EJVM/"/>
+    <id>http://smallqi.com/2020/05/21/%E5%85%B3%E4%BA%8EJVM/</id>
+    <published>2020-05-21T10:28:07.000Z</published>
+    <updated>2020-05-23T13:13:39.130Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、JVM-简介"><a href="#一、JVM-简介" class="headerlink" title="一、JVM 简介"></a>一、JVM 简介</h1><p><em>屏蔽底层操作系统平台的不同，并减少基于原生语言开发的复杂性</em></p><p> JVM 是一种抽象划的虚拟机，通过在实际的计算机上仿真模拟各种计算机功能来实现，其运行在计算机的内存当中。JVM 有自己完善的硬件架构（处理器、堆栈、寄存器、指令系统等），其屏蔽了与具体操作系统平台的相关信息，使得 Java 程序只需在生成可以在 Java 虚拟机上运行的字节码，就可以在多种平台上不加修改地运行。</p><h1 id="二、JVM-组成"><a href="#二、JVM-组成" class="headerlink" title="二、JVM 组成"></a>二、JVM 组成</h1><p>如下图，JVM 主要由以下四部分组成，其中：</p><ol><li><p>Class Loader：加载使用 javac 命令编译好的 class 文件到内存</p></li><li><p>Execution Engine：对命令进行解析</p></li><li><p>Native Interface：融合不同的编程语言为 Java 所用</p></li><li><p>Runtime Data Area：JVM 内存空间结构模型</p><p><img src="/2020/05/21/%E5%85%B3%E4%BA%8EJVM/2.jpeg" alt="JVM组成"></p><h1 id="三、JVM-反射"><a href="#三、JVM-反射" class="headerlink" title="三、JVM 反射"></a>三、JVM 反射</h1></li></ol><p>Java 反射机制是在运行状态中，对于任意一个类，都能知道这个类的所有方法和属性，对于任意一个对象，都能调用它的任意方法和属性，这种动态获取信息以及动态调用对象方法的功能</p><h1 id="四、类从编译到执行的过程"><a href="#四、类从编译到执行的过程" class="headerlink" title="四、类从编译到执行的过程"></a>四、类从编译到执行的过程</h1><ol><li>编译器将 java 源文件编译为 class 字节码文件</li><li>ClassLoader 将字节码 转换为 JVM 中的 Class&lt;类名&gt;</li><li>JVM 利用 Class&lt;类名&gt; 实例化为 对象</li></ol><h1 id="五、ClassLoader"><a href="#五、ClassLoader" class="headerlink" title="五、ClassLoader"></a>五、ClassLoader</h1><p>ClassLoader 在 Java 中有着非常重要的作用，它主要工作在 Class 装载的加载阶段，其主要作用是从系统外部获得 Class 二进制数据流。它是 Java 的核心组件，所有的 Class 都是由 ClassLoader 进行加载的，ClassLoader 负责通过将 Class 文件里的二进制数据流装载进系统，然后交给 Java虚拟机 进行连接、初始化等操作</p><p>分类：</p><ul><li>BootStrapClassLoader：c++编写，加载核心库 java.*</li><li>ExtClassLoader；Java编写，加载扩展库 javax.*</li><li>AppClassLoader：Java编写，加载程序所在目录</li><li>自定义ClassLoader：Java编写，定制化加载</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、JVM-简介&quot;&gt;&lt;a href=&quot;#一、JVM-简介&quot; class=&quot;headerlink&quot; title=&quot;一、JVM 简介&quot;&gt;&lt;/a&gt;一、JVM 简介&lt;/h1&gt;&lt;p&gt;&lt;em&gt;屏蔽底层操作系统平台的不同，并减少基于原生语言开发的复杂性&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
+      <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
+    
+      <category term="JVM" scheme="http://smallqi.com/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【计网】 HTTP 简介</title>
     <link href="http://smallqi.com/2020/05/21/HTTP%E7%AE%80%E4%BB%8B/"/>
     <id>http://smallqi.com/2020/05/21/HTTP%E7%AE%80%E4%BB%8B/</id>
