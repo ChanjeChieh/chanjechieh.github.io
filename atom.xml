@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-05-23T14:29:43.732Z</updated>
+  <updated>2020-05-24T04:10:47.490Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://smallqi.com/2020/05/23/%E3%80%90Java%E3%80%91%20volatile%20%E5%85%B3%E9%94%AE%E5%AD%97/"/>
     <id>http://smallqi.com/2020/05/23/%E3%80%90Java%E3%80%91%20volatile%20%E5%85%B3%E9%94%AE%E5%AD%97/</id>
     <published>2020-05-23T14:00:00.000Z</published>
-    <updated>2020-05-23T14:29:43.732Z</updated>
+    <updated>2020-05-24T04:10:47.490Z</updated>
     
-    <content type="html"><![CDATA[<p>volatile 的作用有：</p><h3 id="一、保证变量的可见性"><a href="#一、保证变量的可见性" class="headerlink" title="一、保证变量的可见性"></a>一、保证变量的可见性</h3><p> volatile 保证了不同线程对其所修饰变量进行操作时的可见性，即当一个线程修改该变量时，这个新值对其他线程来说是立即可见的。</p><ol><li><p>使用 volatile 关键字会强制将修改的值写入主存</p></li><li><p>使用 volatile 关键字的话，当线程 B 进行修改时，会导致线程 A 的工作内存中缓存变量的缓存行无效</p></li><li><p>由于线程 A 的工作内存中缓存变量的缓存行无效，所以线程 A 再次读取变量的值时就回去主存中读取，那么在修改 stop 值时（这里包括两个操作：修改线程 B 工作内存中的值，然后将修改后的值写入内存），会使得线程 A 的工作内存中缓存变量 stop 的缓存行无效，线程 A 读取时发现自己的缓存行无效，便等待缓存行对应的地址被更新之后去对应的主存读取最新的呃值。</p><h3 id="二、保证有序性（禁止指令重排序）"><a href="#二、保证有序性（禁止指令重排序）" class="headerlink" title="二、保证有序性（禁止指令重排序）"></a>二、保证有序性（禁止指令重排序）</h3><p>为什么在单例模式的双检锁实现方法中对 变量 使用了 volatile 关键字进行修饰？</p><p>因为 instance = new DCL(); 这条语句中，其并非一个原子操作，在 JVM 中这条语句大概做了下面三件事：</p><ol><li>给 instance 分配内存；</li><li>调用 DCL 的构造函数来初始化成员变量</li><li>将 instance 对象指向分配的内存空间</li></ol></li></ol><p>但由于存在指令重排序的问题，第二步和第三步可能颠倒执行，这种情况下，当第一个线程执行到 3 但是没有执行 2 时，第二个进程过来，判断这个 instance 不是 null，然后直接返回 instance，便产生了错误，而使用 volatile 关键字就可以避免这种错误发生。</p>]]></content>
+    <content type="html"><![CDATA[<p>volatile 的作用有：</p><h3 id="一、保证变量的可见性"><a href="#一、保证变量的可见性" class="headerlink" title="一、保证变量的可见性"></a>一、保证变量的可见性</h3><p> volatile 保证了不同线程对其所修饰变量进行操作时的可见性，即当一个线程修改该变量时，这个新值对其他线程来说是立即可见的。</p><ol><li>使用 volatile 关键字会强制将修改的值写入主存</li><li>使用 volatile 关键字的话，当线程 B 进行修改时，会导致线程 A 的工作内存中缓存变量的缓存行无效</li><li>由于线程 A 的工作内存中缓存变量的缓存行无效，所以线程 A 再次读取变量的值时就回去主存中读取，那么在修改 stop 值时（这里包括两个操作：修改线程 B 工作内存中的值，然后将修改后的值写入内存），会使得线程 A 的工作内存中缓存变量 stop 的缓存行无效，线程 A 读取时发现自己的缓存行无效，便等待缓存行对应的地址被更新之后去对应的主存读取最新的呃值。</li></ol><h3 id="二、保证有序性（禁止指令重排序）"><a href="#二、保证有序性（禁止指令重排序）" class="headerlink" title="二、保证有序性（禁止指令重排序）"></a>二、保证有序性（禁止指令重排序）</h3><p> 为什么在单例模式的双检锁实现方法中对 变量 使用了 volatile 关键字进行修饰？</p><p> 因为 instance = new DCL(); 这条语句中，其并非一个原子操作，在 JVM 中这条语句大概做了下面三件事：</p><ol><li>给 instance 分配内存；</li><li>调用 DCL 的构造函数来初始化成员变量</li><li>将 instance 对象指向分配的内存空间</li></ol><p>但由于存在指令重排序的问题，第二步和第三步可能颠倒执行，这种情况下，当第一个线程执行到 3 但是没有执行 2 时，第二个进程过来，判断这个 instance 不是 null，然后直接返回 instance，便产生了错误，而使用 volatile 关键字就可以避免这种错误发生。</p>]]></content>
     
     <summary type="html">
     
@@ -37,7 +37,7 @@
     
     
     
-      <category term="设计模式" scheme="http://smallqi.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
     
       <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
@@ -64,9 +64,9 @@
     
     
     
-      <category term="设计模式" scheme="http://smallqi.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
       <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
+      <category term="设计模式" scheme="http://smallqi.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
@@ -123,6 +123,32 @@
   </entry>
   
   <entry>
+    <title>【Java】Java 垃圾 标记算法 和 回收算法</title>
+    <link href="http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/"/>
+    <id>http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</id>
+    <published>2020-05-21T10:28:07.000Z</published>
+    <updated>2020-05-23T15:17:03.415Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、标记算法"><a href="#一、标记算法" class="headerlink" title="一、标记算法"></a>一、标记算法</h1><p>在 Java 中，判定是否为垃圾的标准是：没有被其他对象所引用，那其占用的系统内存就应该被释放，该对象也会被销毁。那怎么判定一个对象是否不被引用，有下面两种办法：</p><h3 id="1-1、引用计数算法"><a href="#1-1、引用计数算法" class="headerlink" title="1.1、引用计数算法"></a>1.1、引用计数算法</h3><p>通过判断对象的引用数量来决定对象是否可以被回收，在这种方法下，堆中的每个实例都有一个引用计数器，被引用则 +1，完成引用则 -1。当计数为 0 时，这个对象实例就可以被当作垃圾进行回收了。</p><ul><li>优点：使用该方法的垃圾回收器的执行效率高，程序执行受影响较小</li><li>缺点：无法检测循环引用（两个对象互相引用）的情况，导致内存泄漏</li></ul><h3 id="1-2、可达性分析算法"><a href="#1-2、可达性分析算法" class="headerlink" title="1.2、可达性分析算法"></a>1.2、可达性分析算法</h3><p>通过判断对象的应用链是否可达来决定对象是否可以被回收。程序将所有的对象的引用关系看作一张图，将 GC Root 看作根节点，并从这里出发遍历整个图，没有被遍历到的便记作不可达，即“垃圾”。</p><p>上面说到的 GC Root 可以是：</p><ul><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中常量引用的对象， </li><li>方法区中类静态属性引用的对象</li><li>本地方法栈中 JNI（Native方法）的引用对象</li><li>活跃线程的引用对象</li></ul><h1 id="二、回收算法"><a href="#二、回收算法" class="headerlink" title="二、回收算法"></a>二、回收算法</h1><h3 id="1-1-标记-清除算法（Mark-and-Sweep）"><a href="#1-1-标记-清除算法（Mark-and-Sweep）" class="headerlink" title="1.1 标记-清除算法（Mark and Sweep）"></a>1.1 标记-清除算法（Mark and Sweep）</h3><p>标记是从根集合进行扫描，对存活的对象进行标记（可达性分析算法），清除就是对堆内存从头到尾进行线性遍历，不可达对象便被作为垃圾回收，并将可达标记清除，</p><ul><li>容易会造成 碎片化</li></ul><h3 id="1-2-复制算法（Copying）"><a href="#1-2-复制算法（Copying）" class="headerlink" title="1.2 复制算法（Copying）"></a>1.2 复制算法（Copying）</h3><p>将可用的内存按容量依据一定比例划分为对象面和空闲面，对象在对象面上创建，当对象面满时，将对象面中还存活的对象复制到空闲面上，然后在内存中清除对象面中所有对象。</p><ul><li>解决碎片化问题</li><li>顺序分配内存，简单高效</li><li>适用于对象存活率低的场景 </li></ul><h3 id="1-3-标记-整理算法（Compacting）"><a href="#1-3-标记-整理算法（Compacting）" class="headerlink" title="1.3 标记-整理算法（Compacting）"></a>1.3 标记-整理算法（Compacting）</h3><p>标记是从根集合进行扫描，对存活的对象进行标记（可达性分析算法），清除时，移动所有存活的对象，且按照内存地址次序依次排列，然后将末端内存地址以后的内存全部回收。</p><ul><li>避免了内存的不连续性</li><li>不用设置两块内存进行交换</li><li>适用于对象存活率较高的场景</li></ul><h3 id="1-4-分代收集算法（Generational-Collector）"><a href="#1-4-分代收集算法（Generational-Collector）" class="headerlink" title="1.4 分代收集算法（Generational Collector）"></a>1.4 分代收集算法（Generational Collector）</h3><p>按照对象生命周期的不同划分区域以采用不同的垃圾回收算法，提高 JVM 的回收效率。</p><ul><li>年轻代的对象存活率低，采用 复制算法</li><li>老年代的对象存活率高，采用 标记-清除算法 或 标记-整理算法</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、标记算法&quot;&gt;&lt;a href=&quot;#一、标记算法&quot; class=&quot;headerlink&quot; title=&quot;一、标记算法&quot;&gt;&lt;/a&gt;一、标记算法&lt;/h1&gt;&lt;p&gt;在 Java 中，判定是否为垃圾的标准是：没有被其他对象所引用，那其占用的系统内存就应该被释放，该对象也会被
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【Java】关于JVM</title>
     <link href="http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-%E5%85%B3%E4%BA%8EJVM/"/>
     <id>http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-%E5%85%B3%E4%BA%8EJVM/</id>
@@ -143,37 +169,39 @@
     
     
     
-      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
-    
       <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
       <category term="JVM" scheme="http://smallqi.com/tags/JVM/"/>
     
   </entry>
   
   <entry>
-    <title>【Java】Java 垃圾 标记算法 和 回收算法</title>
-    <link href="http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/"/>
-    <id>http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</id>
+    <title>【Java】Java 中的四种引用方式</title>
+    <link href="http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-JavaGC%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
+    <id>http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-JavaGC%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</id>
     <published>2020-05-21T10:28:07.000Z</published>
-    <updated>2020-05-23T15:17:03.415Z</updated>
+    <updated>2020-05-23T15:43:12.382Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="一、标记算法"><a href="#一、标记算法" class="headerlink" title="一、标记算法"></a>一、标记算法</h1><p>在 Java 中，判定是否为垃圾的标准是：没有被其他对象所引用，那其占用的系统内存就应该被释放，该对象也会被销毁。那怎么判定一个对象是否不被引用，有下面两种办法：</p><h3 id="1-1、引用计数算法"><a href="#1-1、引用计数算法" class="headerlink" title="1.1、引用计数算法"></a>1.1、引用计数算法</h3><p>通过判断对象的引用数量来决定对象是否可以被回收，在这种方法下，堆中的每个实例都有一个引用计数器，被引用则 +1，完成引用则 -1。当计数为 0 时，这个对象实例就可以被当作垃圾进行回收了。</p><ul><li>优点：使用该方法的垃圾回收器的执行效率高，程序执行受影响较小</li><li>缺点：无法检测循环引用（两个对象互相引用）的情况，导致内存泄漏</li></ul><h3 id="1-2、可达性分析算法"><a href="#1-2、可达性分析算法" class="headerlink" title="1.2、可达性分析算法"></a>1.2、可达性分析算法</h3><p>通过判断对象的应用链是否可达来决定对象是否可以被回收。程序将所有的对象的引用关系看作一张图，将 GC Root 看作根节点，并从这里出发遍历整个图，没有被遍历到的便记作不可达，即“垃圾”。</p><p>上面说到的 GC Root 可以是：</p><ul><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中常量引用的对象， </li><li>方法区中类静态属性引用的对象</li><li>本地方法栈中 JNI（Native方法）的引用对象</li><li>活跃线程的引用对象</li></ul><h1 id="二、回收算法"><a href="#二、回收算法" class="headerlink" title="二、回收算法"></a>二、回收算法</h1><h3 id="1-1-标记-清除算法（Mark-and-Sweep）"><a href="#1-1-标记-清除算法（Mark-and-Sweep）" class="headerlink" title="1.1 标记-清除算法（Mark and Sweep）"></a>1.1 标记-清除算法（Mark and Sweep）</h3><p>标记是从根集合进行扫描，对存活的对象进行标记（可达性分析算法），清除就是对堆内存从头到尾进行线性遍历，不可达对象便被作为垃圾回收，并将可达标记清除，</p><ul><li>容易会造成 碎片化</li></ul><h3 id="1-2-复制算法（Copying）"><a href="#1-2-复制算法（Copying）" class="headerlink" title="1.2 复制算法（Copying）"></a>1.2 复制算法（Copying）</h3><p>将可用的内存按容量依据一定比例划分为对象面和空闲面，对象在对象面上创建，当对象面满时，将对象面中还存活的对象复制到空闲面上，然后在内存中清除对象面中所有对象。</p><ul><li>解决碎片化问题</li><li>顺序分配内存，简单高效</li><li>适用于对象存活率低的场景 </li></ul><h3 id="1-3-标记-整理算法（Compacting）"><a href="#1-3-标记-整理算法（Compacting）" class="headerlink" title="1.3 标记-整理算法（Compacting）"></a>1.3 标记-整理算法（Compacting）</h3><p>标记是从根集合进行扫描，对存活的对象进行标记（可达性分析算法），清除时，移动所有存活的对象，且按照内存地址次序依次排列，然后将末端内存地址以后的内存全部回收。</p><ul><li>避免了内存的不连续性</li><li>不用设置两块内存进行交换</li><li>适用于对象存活率较高的场景</li></ul><h3 id="1-4-分代收集算法（Generational-Collector）"><a href="#1-4-分代收集算法（Generational-Collector）" class="headerlink" title="1.4 分代收集算法（Generational Collector）"></a>1.4 分代收集算法（Generational Collector）</h3><p>按照对象生命周期的不同划分区域以采用不同的垃圾回收算法，提高 JVM 的回收效率。</p><ul><li>年轻代的对象存活率低，采用 复制算法</li><li>老年代的对象存活率高，采用 标记-清除算法 或 标记-整理算法</li></ul>]]></content>
+    <content type="html"><![CDATA[<h4 id="一、强引用"><a href="#一、强引用" class="headerlink" title="一、强引用"></a>一、强引用</h4><ul><li>最普遍的引用：Object obj = new Object()</li><li>抛出 OutOfMemoryError 终止程序也不会将其回收</li><li>通过将对象设置为 null 弱化作用可其使回收</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);                                     &#x2F;&#x2F; 强引用</span><br></pre></td></tr></table></figure><h4 id="二、软引用"><a href="#二、软引用" class="headerlink" title="二、软引用"></a>二、软引用</h4><ul><li>对象处在有用但非必须的状态</li><li>只有当内存空间不足时，GC 会回收该引用的对象的内存</li><li>可以用来实现高速缓存</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);                                     &#x2F;&#x2F; 强引用</span><br><span class="line">SoftReference&lt;String&gt; softRef&#x3D;new SoftReference&lt;String&gt;(str);     &#x2F;&#x2F; 软引用</span><br></pre></td></tr></table></figure><h4 id="三、弱引用"><a href="#三、弱引用" class="headerlink" title="三、弱引用"></a>三、弱引用</h4><ul><li>非必须的对象，比软引用更弱</li><li>DC 时会被回收</li><li>由于 GC 线程优先级较低，所以被回收的概率不大</li><li>适用于引用偶尔被使用且不影响垃圾回收的对象</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);    </span><br><span class="line">WeakReference&lt;String&gt; abcWeakRef &#x3D; new WeakReference&lt;String&gt;(str);</span><br><span class="line">str &#x3D; null;</span><br></pre></td></tr></table></figure><h4 id="四、虚引用"><a href="#四、虚引用" class="headerlink" title="四、虚引用"></a>四、虚引用</h4><ul><li>不会决定对象的生命周期</li><li>任何时候都可能被 GC</li><li>用于跟踪对象被垃圾收集器回收的活动（哨兵）</li><li>必须和 ReferenceQueue 联合使用</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str &#x3D; new String(&quot;abc&quot;);</span><br><span class="line">ReferenceQueue queue &#x3D; new ReferenceQueue();</span><br><span class="line">PhantomReference ref &#x3D; new PhantomReference(str, queue);</span><br></pre></td></tr></table></figure><h4 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h4><p>强引用 ＞ 软引用 ＞ 弱引用 ＞ 虚引用</p><table><thead><tr><th>引用类型</th><th>被垃圾回收时间</th><th>用途</th><th>生存时间</th></tr></thead><tbody><tr><td>强引用</td><td>从来不会</td><td>对象的一般状态</td><td>JVM停止运行时 终止</td></tr><tr><td>软引用</td><td>在内存不足时</td><td>对象缓存</td><td>内存不足时终止</td></tr><tr><td>弱引用</td><td>在垃圾回收时</td><td>对象缓存</td><td>GC 运行后终止</td></tr><tr><td>虚引用</td><td>*</td><td>标记、哨兵</td><td>*</td></tr></tbody></table>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;一、标记算法&quot;&gt;&lt;a href=&quot;#一、标记算法&quot; class=&quot;headerlink&quot; title=&quot;一、标记算法&quot;&gt;&lt;/a&gt;一、标记算法&lt;/h1&gt;&lt;p&gt;在 Java 中，判定是否为垃圾的标准是：没有被其他对象所引用，那其占用的系统内存就应该被释放，该对象也会被
+        &lt;h4 id=&quot;一、强引用&quot;&gt;&lt;a href=&quot;#一、强引用&quot; class=&quot;headerlink&quot; title=&quot;一、强引用&quot;&gt;&lt;/a&gt;一、强引用&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;最普遍的引用：Object obj = new Object()&lt;/li&gt;
+&lt;li&gt;抛出 OutOfMe
       
     
     </summary>
     
     
     
-      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
-    
       <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
+    
+      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
   </entry>
   
@@ -201,34 +229,6 @@
       <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
     
       <category term="计算机网络" scheme="http://smallqi.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【Java】Java 中的四种引用方式</title>
-    <link href="http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-JavaGC%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
-    <id>http://smallqi.com/2020/05/21/%E3%80%90Java%E3%80%91-JavaGC%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</id>
-    <published>2020-05-21T10:28:07.000Z</published>
-    <updated>2020-05-23T15:43:12.382Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="一、强引用"><a href="#一、强引用" class="headerlink" title="一、强引用"></a>一、强引用</h4><ul><li>最普遍的引用：Object obj = new Object()</li><li>抛出 OutOfMemoryError 终止程序也不会将其回收</li><li>通过将对象设置为 null 弱化作用可其使回收</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);                                     &#x2F;&#x2F; 强引用</span><br></pre></td></tr></table></figure><h4 id="二、软引用"><a href="#二、软引用" class="headerlink" title="二、软引用"></a>二、软引用</h4><ul><li>对象处在有用但非必须的状态</li><li>只有当内存空间不足时，GC 会回收该引用的对象的内存</li><li>可以用来实现高速缓存</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);                                     &#x2F;&#x2F; 强引用</span><br><span class="line">SoftReference&lt;String&gt; softRef&#x3D;new SoftReference&lt;String&gt;(str);     &#x2F;&#x2F; 软引用</span><br></pre></td></tr></table></figure><h4 id="三、弱引用"><a href="#三、弱引用" class="headerlink" title="三、弱引用"></a>三、弱引用</h4><ul><li>非必须的对象，比软引用更弱</li><li>DC 时会被回收</li><li>由于 GC 线程优先级较低，所以被回收的概率不大</li><li>适用于引用偶尔被使用且不影响垃圾回收的对象</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str&#x3D;new String(&quot;abc&quot;);    </span><br><span class="line">WeakReference&lt;String&gt; abcWeakRef &#x3D; new WeakReference&lt;String&gt;(str);</span><br><span class="line">str &#x3D; null;</span><br></pre></td></tr></table></figure><h4 id="四、虚引用"><a href="#四、虚引用" class="headerlink" title="四、虚引用"></a>四、虚引用</h4><ul><li>不会决定对象的生命周期</li><li>任何时候都可能被 GC</li><li>用于跟踪对象被垃圾收集器回收的活动（哨兵）</li><li>必须和 ReferenceQueue 联合使用</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str &#x3D; new String(&quot;abc&quot;);</span><br><span class="line">ReferenceQueue queue &#x3D; new ReferenceQueue();</span><br><span class="line">PhantomReference ref &#x3D; new PhantomReference(str, queue);</span><br></pre></td></tr></table></figure><h4 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h4><p>强引用 ＞ 软引用 ＞ 弱引用 ＞ 虚引用</p><table><thead><tr><th>引用类型</th><th>被垃圾回收时间</th><th>用途</th><th>生存时间</th></tr></thead><tbody><tr><td>强引用</td><td>从来不会</td><td>对象的一般状态</td><td>JVM停止运行时 终止</td></tr><tr><td>软引用</td><td>在内存不足时</td><td>对象缓存</td><td>内存不足时终止</td></tr><tr><td>弱引用</td><td>在垃圾回收时</td><td>对象缓存</td><td>GC 运行后终止</td></tr><tr><td>虚引用</td><td>*</td><td>标记、哨兵</td><td>*</td></tr></tbody></table>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h4 id=&quot;一、强引用&quot;&gt;&lt;a href=&quot;#一、强引用&quot; class=&quot;headerlink&quot; title=&quot;一、强引用&quot;&gt;&lt;/a&gt;一、强引用&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;最普遍的引用：Object obj = new Object()&lt;/li&gt;
-&lt;li&gt;抛出 OutOfMe
-      
-    
-    </summary>
-    
-    
-    
-      <category term="复习" scheme="http://smallqi.com/tags/%E5%A4%8D%E4%B9%A0/"/>
-    
-      <category term="Java" scheme="http://smallqi.com/tags/Java/"/>
     
   </entry>
   
