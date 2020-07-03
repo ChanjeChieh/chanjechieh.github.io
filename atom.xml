@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smallqi.com/"/>
-  <updated>2020-06-04T12:43:16.501Z</updated>
+  <updated>2020-05-24T15:02:25.426Z</updated>
   <id>http://smallqi.com/</id>
   
   <author>
@@ -15,33 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>LRMZZ</title>
-    <link href="http://smallqi.com/2020/06/04/LRMZZ/"/>
-    <id>http://smallqi.com/2020/06/04/LRMZZ/</id>
-    <published>2020-06-04T12:16:54.000Z</published>
-    <updated>2020-06-04T12:43:16.501Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="ZZLRM1"><a href="#ZZLRM1" class="headerlink" title="ZZLRM1"></a>ZZLRM1</h2><table><thead><tr><th>名称</th><th>分子式或简称</th><th>规格</th><th>来源</th></tr></thead><tbody><tr><td>氢氧化钾</td><td>KOH</td><td>AR</td><td>国药化学试剂有限公司</td></tr><tr><td>浓硫酸</td><td>H<sub>2</sub>SO<sub>4</sub></td><td>AR98%</td><td>百灵威科技有限公司</td></tr><tr><td>甲醇</td><td>CH<sub>3</sub>OH</td><td>AR</td><td>国药化学试剂有限公司</td></tr><tr><td>去离子水</td><td>H<sub>2</sub>O</td><td>-</td><td>实验室制备</td></tr><tr><td>硝酸铁</td><td>Fe(NO<sub>3</sub>)<sub>3</sub></td><td></td><td></td></tr><tr><td>硝酸镍</td><td>Ni(NO<sub>3</sub>)<sub>2</sub></td><td></td><td></td></tr></tbody></table><h2 id="ZZLRM2"><a href="#ZZLRM2" class="headerlink" title="ZZLRM2"></a>ZZLRM2</h2><table><thead><tr><th>名称</th><th>规格</th><th>来源</th></tr></thead><tbody><tr><td>分析天平</td><td>AR1140</td><td>梅勒普-托利仪器(上海)有限公司</td></tr><tr><td>反应釜</td><td>-</td><td>天津北洋励兴有限公司</td></tr><tr><td>X-射线衍射仪(XRD)</td><td>X`Pert PRO MRD</td><td>荷兰PANalytical公司</td></tr><tr><td>扫描电子显微镜(SEM)</td><td>SU8010</td><td>日本日立公司</td></tr><tr><td>投射电子显微镜(TEM)</td><td>JEM-1011</td><td>日本JEOL公司</td></tr><tr><td>X-射线光电子能谱仪(XPS)</td><td>Thermofisher K-alpha</td><td>美国赛默飞公司</td></tr><tr><td>超纯水机</td><td>——</td><td>成都羽绒康宁科技发展有限公司</td></tr><tr><td>电化学工作站</td><td>CHI 760E</td><td>上海辰华仪器有限公司</td></tr><tr><td>磁力搅拌机</td><td>C-MAG HS7</td><td>德国IKA公司</td></tr><tr><td>电热恒温鼓风干燥箱</td><td>Fx101-1</td><td>上海树立仪器仪表有限公司</td></tr><tr><td>超声波清洗器</td><td>HX-03</td><td>武汉恒信世纪科技有限公司</td></tr></tbody></table>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;ZZLRM1&quot;&gt;&lt;a href=&quot;#ZZLRM1&quot; class=&quot;headerlink&quot; title=&quot;ZZLRM1&quot;&gt;&lt;/a&gt;ZZLRM1&lt;/h2&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;名称&lt;/th&gt;
-&lt;th&gt;分子式或简称&lt;/th&gt;
-&lt;th&gt;规格&lt;/
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
   
   <entry>
     <title>找出数组中重复的数字</title>
@@ -63,9 +36,9 @@
     
     
     
-      <category term="剑指offer" scheme="http://smallqi.com/tags/%E5%89%91%E6%8C%87offer/"/>
-    
       <category term="算法" scheme="http://smallqi.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="剑指offer" scheme="http://smallqi.com/tags/%E5%89%91%E6%8C%87offer/"/>
     
   </entry>
   
