@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://smallqi.com/2021/04/07/cygwin%E5%AE%89%E8%A3%85%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8Cmake/</loc>
+    
+    <lastmod>2021-04-07T07:26:57.231Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://smallqi.com/2021/04/07/ubuntu18.0%E4%B8%8B%E9%99%8D%E4%BD%8Epip%E7%89%88%E6%9C%AC/</loc>
     
-    <lastmod>2021-04-07T02:11:39.136Z</lastmod>
+    <lastmod>2021-04-07T02:14:24.244Z</lastmod>
     
   </url>
   
@@ -149,14 +156,14 @@
   </url>
   
   <url>
-    <loc>http://smallqi.com/links/index.html</loc>
+    <loc>http://smallqi.com/tags/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://smallqi.com/tags/index.html</loc>
+    <loc>http://smallqi.com/links/index.html</loc>
     
     <lastmod>2020-04-24T17:16:12.524Z</lastmod>
     
