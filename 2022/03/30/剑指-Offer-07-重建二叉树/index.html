@@ -27,8 +27,9 @@
 <meta property="og:description" content="输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 示例1：  Input: preorder &#x3D; [3,9,20,15,7], inorder &#x3D; [9,3,15,20,7]Output: [3,9,20,null,null,15,7]  示例2：  Input: preorder &#x3D; [-1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-30T08:42:30.000Z">
-<meta property="article:modified_time" content="2022-03-30T09:00:55.533Z">
+<meta property="article:modified_time" content="2022-03-30T09:17:23.726Z">
 <meta property="article:author" content="WangJie">
+<meta property="article:tag" content="剑指offer">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
   <link rel="canonical" href="http://smallqi.com/2022/03/30/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
@@ -174,7 +175,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -184,7 +185,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Java/" style="font-size: 13.67px;">Java</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.67px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a>
+      <a href="/tags/Java/" style="font-size: 13.67px;">Java</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/%E5%89%91%E6%8C%87offer/" style="font-size: 13px;">剑指offer</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.67px;">教程</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a>
     </div>
   </div>
 
@@ -314,6 +315,11 @@
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a>
+  </span>
+
 
         
 	<span class="article-read hidden-xs">
@@ -327,7 +333,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/03/30/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 219(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 218(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -338,15 +344,15 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <p>输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。<br>假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
-<p><b>示例1：<b></p>
+<p><b>示例1：</b></p>
 <blockquote>
 <p>Input: preorder &#x3D; [3,9,20,15,7], inorder &#x3D; [9,3,15,20,7]<br>Output: [3,9,20,null,null,15,7]</p>
 </blockquote>
-<p><b>示例2：<b></p>
+<p><b>示例2：</b></p>
 <blockquote>
 <p>Input: preorder &#x3D; [-1], inorder &#x3D; [-1]<br>Output: [-1]</p>
 </blockquote>
-<p>答案1（递归）：</p>
+<p>答案（递归）：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * public class TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode left;</span><br><span class="line"> *     TreeNode right;</span><br><span class="line"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">    public TreeNode buildTree(int[] preorder, int[] inorder) &#123;</span><br><span class="line">        if (preorder.length == 0 || inorder.length == 0) </span><br><span class="line">            return null;</span><br><span class="line">            </span><br><span class="line">        int indexOfRootInInorder = 0;</span><br><span class="line">        for (int i = 0; i &lt; inorder.length; i++)</span><br><span class="line">            if (inorder[i] == preorder[0])</span><br><span class="line">                indexOfRootInInorder = i;</span><br><span class="line"></span><br><span class="line">        int lenOfLeft = indexOfRootInInorder;</span><br><span class="line">        int lenOfRight = inorder.length-indexOfRootInInorder;</span><br><span class="line"></span><br><span class="line">        TreeNode root = new TreeNode(preorder[0]);</span><br><span class="line">        root.left = new Solution().buildTree(</span><br><span class="line">            Arrays.copyOfRange( preorder, 1, lenOfLeft+1),</span><br><span class="line">            Arrays.copyOfRange( inorder, 0, indexOfRootInInorder) );</span><br><span class="line">        root.right = new Solution().buildTree(</span><br><span class="line">            Arrays.copyOfRange( preorder, lenOfLeft+1, preorder.length),</span><br><span class="line">            Arrays.copyOfRange( inorder, indexOfRootInInorder+1, inorder.length) );</span><br><span class="line"></span><br><span class="line">        return root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
