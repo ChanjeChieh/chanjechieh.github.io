@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Cookie 和 Session 的区别 | WangJie`s Blog</title>
+  <meta name="description" content="因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和 一、Cookie1.1 Cookie 简介Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。 或者说： 当用户访问一个支持 Cookie 的网站时，用户会提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie 和 Session 的区别">
+<meta property="og:url" content="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="WangJie&#96;s Blog">
+<meta property="og:description" content="因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和 一、Cookie1.1 Cookie 简介Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。 或者说： 当用户访问一个支持 Cookie 的网站时，用户会提">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smallqi.com/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
+<meta property="article:published_time" content="2020-05-21T10:28:07.000Z">
+<meta property="article:modified_time" content="2022-03-30T09:05:02.093Z">
+<meta property="article:author" content="WangJie">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smallqi.com/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="WangJie`s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ChanjeChieh" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">WangJie</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> QingDao, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ChanjeChieh" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag">阅读笔记</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Java/" style="font-size: 13.67px;">Java</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/%E5%89%91%E6%8C%87offer/" style="font-size: 13px;">剑指offer</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.67px;">教程</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">机器学习</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">阅读笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/03/30/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/" class="title">剑指 Offer 07. 重建二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-03-30T08:42:30.000Z" itemprop="datePublished">2022-03-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/06/Data-Mining-Reading/" class="title">Data Mining Reading</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-06T01:16:10.000Z" itemprop="datePublished">2021-07-06</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/06/17/%E4%BF%AE%E6%94%B9Windows%E4%B8%AD%E6%96%87%E7%94%A8%E6%88%B7%E5%90%8D/" class="title">修改Windows中文用户名</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-06-17T11:33:28.000Z" itemprop="datePublished">2021-06-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/19/python%E5%AE%9E%E7%8E%B0TF-IDF%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97/" class="title">python实现TF-IDF简单计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-19T00:33:02.000Z" itemprop="datePublished">2021-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/18/python-collections-Counter-%E8%AE%A1%E6%95%B0%E5%99%A8/" class="title">python collections Counter, 计数器</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-18T12:59:56.000Z" itemprop="datePublished">2021-05-18</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Cookie和Session的区别" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cookie 和 Session 的区别
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+	  <time datetime="2020-05-21T10:28:07.000Z" itemprop="datePublished">2020-05-21</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 744(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>因为 HTTP 是无状态的，所以我们每次访问有登录需求的页面都要输入账号密码。Cookie和</p>
+<h1 id="一、Cookie"><a href="#一、Cookie" class="headerlink" title="一、Cookie"></a>一、Cookie</h1><h3 id="1-1-Cookie-简介"><a href="#1-1-Cookie-简介" class="headerlink" title="1.1 Cookie 简介"></a>1.1 Cookie 简介</h3><p>Cookie 是客户端的解决方案，Cookie 是由服务器发送给客户端的特殊信息，而这些信息以文本文件的形式存放在客户端，客户端每次向服务端发送请求时都会带上这些信息，用户就不用再填写用户名和密码了。</p>
+<p>或者说：</p>
+<p>当用户访问一个支持 Cookie 的网站时，用户会提供用户名、密码等个人信息给服务器，而服务器在向客户端发送超文本的同时，会将这些信息放在 Response-Header 中，这时，客户端会将这些信息统一存在一个位置，以后客户端再发送请求会将这些信息（Cookie）放在请求头一并发送。</p>
+<h3 id="1-2-Cookie-的设置和发送过程"><a href="#1-2-Cookie-的设置和发送过程" class="headerlink" title="1.2 Cookie 的设置和发送过程"></a>1.2 Cookie 的设置和发送过程</h3><p>首先客户端发送一个 HTTP 请求到服务端，然后服务端发送一个包含 Set-Cookie 头部的 HTTP 响应到客户端，其中就，客户端再发送一个包含 Cookie 头部的 HTTP 请求到服务端，此时 服务端再发送一个 HTTP 响应到客户端。</p>
+<p><img src="/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" alt="Cookie的设置及发送过程"></p>
+<h1 id="二、Session"><a href="#二、Session" class="headerlink" title="二、Session"></a>二、Session</h1><h3 id="2-1-Session-简介"><a href="#2-1-Session-简介" class="headerlink" title="2.1 Session 简介"></a>2.1 Session 简介</h3><p>Session 机制是一种在服务端的机制，服务器采用一种类似于散列表的结构保存信息，当程序需要为某个客户端的请求创建一个 session 的时候，服务器首先检查这个请求里是否已经包含一个 session 标识（session id，是一个既不重复也不容易被找到生成规律的序号）。如果已经包含，则证明以前创建过 session，服务端便使用这个 session id 到散列表中检索出相应的 session 来；如果不包含，就为这个客户端创建一个 session，并生成一个相应的 session id，</p>
+<h3 id="2-2-Session-的两种实现方式"><a href="#2-2-Session-的两种实现方式" class="headerlink" title="2.2 Session 的两种实现方式"></a>2.2 Session 的两种实现方式</h3><ol>
+<li><p>使用 Cookie 实现：<br>服务器给每个 Session 分配一个唯一的 JSESSIONID 并通过 Cookie 发送给客户端，当客户端发起新的请求时，将在新的请求头中携带这个 id，这样，服务器就能找到与这个客户端相应的 Session</p>
+</li>
+<li><p>使用 URL 回写实现：<br>服务器在发送给浏览器页面的所有页面中都携带 JSESSIONID 的参数，这样，使用浏览器点击任意链接都会把 JSESSIONID 一同发送</p>
+</li>
+</ol>
+<p>不管使用哪种方式，都需要 JSEESIONID。</p>
+<h1 id="三、Cookie-和-Session-的区别"><a href="#三、Cookie-和-Session-的区别" class="headerlink" title="三、Cookie 和 Session 的区别"></a>三、Cookie 和 Session 的区别</h1><ol>
+<li>Cookie 数据存放在客户的浏览器上，SESSION 数据存放在服务器上  </li>
+<li>Session 较 Cookie 更为安全：人们可以分析存放在本地的 Cookie 并进行 Cookie 欺骗</li>
+<li>Session 会在一定时间内保存在服务器上，当页面访问量较多时会影响服务器性能，若考虑到服务器性能，应使用 Cookie</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Cookie 和 Session 的区别" target="_blank" rel="external">http://smallqi.com/2020/05/21/Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ChanjeChieh" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ChanjeChieh" target="_blank"><span class="text-dark">WangJie</span><small class="ml-1x"></small></a></h3>
+        <div>用心对待每一件事，认真对待每一个人</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/05/21/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" title="Java 垃圾 标记算法 和 回收算法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/05/21/JavaGC%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Java 中的四种引用方式"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ChanjeChieh" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 版权归 WangJie 所有
+		<br> <a href="http://www.beian.miit.gov.cn" target="_blank"> 鲁ICP备20014018号</a>
+        
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>三次握手 和 四次挥手 | WangJie`s Blog</title>
+  <meta name="description" content="一、背景知识1、TCP 传输协议 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。  所以这件事情就交给了它的上层传输控制协议 TCP 来做了：  面向连接的、可靠的、基于字节流的传输层通信协议 将应用层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三次握手 和 四次挥手">
+<meta property="og:url" content="http://smallqi.com/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
+<meta property="og:site_name" content="WangJie&#96;s Blog">
+<meta property="og:description" content="一、背景知识1、TCP 传输协议 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。  所以这件事情就交给了它的上层传输控制协议 TCP 来做了：  面向连接的、可靠的、基于字节流的传输层通信协议 将应用层">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://smallqi.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg">
+<meta property="og:image" content="http://smallqi.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg">
+<meta property="og:image" content="http://smallqi.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg">
+<meta property="article:published_time" content="2020-05-20T04:24:19.000Z">
+<meta property="article:modified_time" content="2022-03-30T09:05:54.388Z">
+<meta property="article:author" content="WangJie">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://smallqi.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://smallqi.com/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="WangJie`s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ChanjeChieh" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">WangJie</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> QingDao, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ChanjeChieh" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag">剑指offer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag">阅读笔记</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Java/" style="font-size: 13.67px;">Java</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/python/" style="font-size: 13.33px;">python</a> <a href="/tags/%E5%89%91%E6%8C%87offer/" style="font-size: 13px;">剑指offer</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 13.67px;">教程</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 13px;">机器学习</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 13px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">阅读笔记</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/03/30/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/" class="title">剑指 Offer 07. 重建二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-03-30T08:42:30.000Z" itemprop="datePublished">2022-03-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/06/Data-Mining-Reading/" class="title">Data Mining Reading</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-06T01:16:10.000Z" itemprop="datePublished">2021-07-06</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/06/17/%E4%BF%AE%E6%94%B9Windows%E4%B8%AD%E6%96%87%E7%94%A8%E6%88%B7%E5%90%8D/" class="title">修改Windows中文用户名</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-06-17T11:33:28.000Z" itemprop="datePublished">2021-06-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/19/python%E5%AE%9E%E7%8E%B0TF-IDF%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97/" class="title">python实现TF-IDF简单计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-19T00:33:02.000Z" itemprop="datePublished">2021-05-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/18/python-collections-Counter-%E8%AE%A1%E6%95%B0%E5%99%A8/" class="title">python collections Counter, 计数器</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-18T12:59:56.000Z" itemprop="datePublished">2021-05-18</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-三次握手-和-四次挥手" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      三次握手 和 四次挥手
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="article-date">
+	  <time datetime="2020-05-20T04:24:19.000Z" itemprop="datePublished">2020-05-20</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.9k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="一、背景知识"><a href="#一、背景知识" class="headerlink" title="一、背景知识"></a>一、背景知识</h1><h2 id="1、TCP-传输协议"><a href="#1、TCP-传输协议" class="headerlink" title="1、TCP 传输协议"></a>1、TCP 传输协议</h2><p> 网络层的 IP 协议是一种无连接的通信协议，它不占用正在通信的两台计算机的通信线路，而网络中数据包的路由是由IP协议负责的，但IP协议没有做一些用来确定数据包按顺序发送或数据包没有被破坏的事情，所以 IP 数据包是不可靠的，需要上层协议来控制。</p>
+<p> 所以这件事情就交给了它的上层传输控制协议 TCP 来做了：</p>
+<ul>
+<li>面向连接的、可靠的、基于字节流的传输层通信协议</li>
+<li>将应用层的数据流分割成适当长度的报文段（受该计算机连接网络的数据链路层的最大传输单元 MTU 限制）发送给目标结点的 TCP 层</li>
+<li>TCP 为了保证不丢失包，就给每个包一个序号（sequence），同时也保证了数据的顺序接受，接收方对已经收到的数据包发送ACK确认，而发送方如果在合理的往返时延内没有接受到则进行重传</li>
+<li>TCP 用奇偶检验和函数来检验数据再传输过程中是否发生错误</li>
+</ul>
+<h2 id="2、TCP-报文头"><a href="#2、TCP-报文头" class="headerlink" title="2、TCP 报文头"></a>2、TCP 报文头</h2><p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpg"></p>
+<ul>
+<li><strong>Source Port</strong>（源端口）和<strong>Destination Port</strong>（目的端口）各占两个字节。为解决进程ID局限于本地使用，所以在传输层采用了 IP地址+协议+端口号 唯一标识网络中的一个进程（即套接字Socket）</li>
+<li><strong>Sequence Number</strong>（即Seq序号）占了四个字节，TCP连接传送的字节流中的每个字节都按顺序编号。例如：一个报文段序号是 14，长度为 100，那下一个报文段的序号就是 114</li>
+<li><strong>Acknowledgment Number</strong>（即Ack）占了四个字节，期望收到对方下一个报文的第一个数据字节的序号。例如：B收到A发送的报文序列号是301，数据长度是200字节，则B收到的数据编号从301到500，那B期望收到的下一个A发来的数据序号是501，因此B发送给A的确认报文段中会把Ack置为501。</li>
+<li><strong>Header Length</strong>（也叫OffSet，即数据偏移量），它指出TCP报文的数据距离TCP报文的起始处有多远。</li>
+<li>8 个TCP控制位中 ACK（标识Ack序号是否有效）、SYN（用于建立连接过程）、FIN（用于标识是否释放连接） 这三个标识位</li>
+<li><strong>Window Size</strong> （滑动窗口的大小），用来告知发送端和接收端的缓存大小，以此控制发送端发送的速率，从而达到流量控制。</li>
+<li><strong>TCP Checksum</strong>（奇偶校验和），对TCP头部和TCP数据以计算所得，由发送端生成，接收端存储校验</li>
+<li><strong>Urgent Pointer</strong> 指出本段TCP报文的紧急字节数</li>
+</ul>
+<h1 id="二、TCP-的三次握手"><a href="#二、TCP-的三次握手" class="headerlink" title="二、TCP 的三次握手"></a>二、TCP 的三次握手</h1><p> 当应用程序愿意通过TCP与另一个应用程序通信时，它会发送一个通信请求，这个请求必须被发送给一个确切的地址，在双方握手（即<strong>三次握手</strong>）之后TCP将在两个应用之间建立全双工通信（计算机A可以给B发送信息，同时B也能给A回发信息），占用两个计算机的通信线路，直到一方或双方关闭为止</p>
+<p>TCP三次握手：<br> <img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP三次握手"></p>
+<p><strong>第一次握手：</strong></p>
+<ol>
+<li>服务器的 TCP服务进程 创建 传输控制块TCB，时刻准备接受其他客户进程发送过来的连接请求，接下来服务器便进入 <strong>LISTEN</strong>（即监听状态）</li>
+<li>客户端的 TCP服务进程 创建 传输控制块TCB，然后向服务器发出连接请求报文（SYN&#x3D;1,seq&#x3D;x），此时客户端进入 <strong>SYN-SENT</strong>（即同步-已发送状态），该报文不能携带数据，但会消耗一个序列号</li>
+</ol>
+<p><strong>第二次握手：</strong></p>
+<ol>
+<li>服务器 TCP服务进程 收到请求报文后，如果同意连接则发送确认报文（SYN&#x3D;1,ACK&#x3D;1,seq&#x3D;y,ack&#x3D;x+1），此时服务端进入 <strong>SYN-RCVD</strong>（即同步-收到状态），这个报文同样不能携带数据，且需要消耗一个序号</li>
+</ol>
+<p><strong>第三次握手：</strong></p>
+<ol>
+<li>客户端的 TCP服务进程 收到确认报文后还要向服务器发送一个确认报文（ACK&#x3D;1,seq&#x3D;x+1,ack&#x3D;y+1），此时客户端进入 <strong>ESTABLISHED</strong>（即建立状态）</li>
+<li>服务器的 TCP服务进程 收到确认报文后便结束  <strong>SYN-RCVD</strong> 状态，进入 <strong>ESTABLISHED</strong></li>
+</ol>
+<blockquote>
+<p>问：为什么要进行三次握手？  </p>
+<ol>
+<li>防止服务器开启无用的连接增加服务器的开销（服务器因为客户端的超时重传不断开启新的端口造成的资源浪费）  </li>
+<li>防止因为已经失效的连接请求报文段被传回服务器而产生错误</li>
+</ol>
+</blockquote>
+<h1 id="三、TCP-的四次挥手"><a href="#三、TCP-的四次挥手" class="headerlink" title="三、TCP 的四次挥手"></a>三、TCP 的四次挥手</h1><p>“挥手” 的目的就是终止连接，所谓 “四次挥手”，就是客户端和服务端总共发出四个包，以确认连接断开。</p>
+<p>TCP四次挥手：<br> <img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.jpg" alt="TCP四次挥手"></p>
+<p> 数据传送完毕之后双方均可释放连接，释放前双方均处于 <strong>ESTABLISHED</strong> 的状态</p>
+<p><strong>第一次挥手：</strong>  </p>
+<ol>
+<li>首先客户端进程发出 连接释放报文（FIN&#x3D;1,seq&#x3D;u），并停止发送数据，此时客户端进入 <strong>FIN-WAIT-1</strong> 状态，这个报文不能携带数据，但要消耗一个序列号</li>
+</ol>
+<p><strong>第二次挥手：</strong>  </p>
+<ol>
+<li>服务器收到连接释放报文的时候要发出 确认报文（ACK&#x3D;1,seq&#x3D;v,ack&#x3D;u+1），此时服务端进入 <strong>CLOSE-WAIT</strong> 状态，并通知高层的 应用进程 即将断开与客户端的连接，此时客户端不再发送数据，但是服务器发送的数据客户端依旧可以正确接收</li>
+<li>客户端接收到服务器刚刚发送的确认报文（即第二次挥手的请求）后，进入 <strong>FIN-WAIT-2</strong> 状态，等待服务器发送 释放连接报文（第三次挥手的请求）。</li>
+</ol>
+<p> <strong>第三次挥手：</strong>  </p>
+<ol>
+<li>服务器将最后需要发送的数据发送完毕后，向客户端发送连接释放报文（FIN&#x3D;1,ACK&#x3D;1,seq&#x3D;w,ackv+1），此时服务器进入 <strong>LAST-ACK</strong> 状态，等待客户端的最后确认</li>
+</ol>
+<p><strong>第四次挥手</strong></p>
+<ol>
+<li>客户端收到服务器发送的连接释放报文后发送最后一次确认（ACK&#x3D;1,seq&#x3D;u+1,ack&#x3D;w+1），此时客户端进入 <strong>TIME-WAIT</strong> 状态，但此时，客户端的 TCP连接并没有释放，需经过 2MSL（最长报文段寿命） 的时间才进行释放，即进入 <strong>CLOSE</strong> 状态</li>
+<li>服务端收到最后一次确认后，进入  <strong>CLOSE</strong> 状态</li>
+</ol>
+<blockquote>
+<p>问：为什么 “握手” 是三次，而 “挥手” 需要四次？  </p>
+<ol>
+<li>在 “握手” 中，服务端的 同意建立连接信号SYN 和 确认信号ACK 是在同一次握手中发送的  </li>
+<li>而 “挥手” 中，服务端发送的 ACK 和 FIN 由于服务端在收到信号时可能还在传输数据，需要将最后的数据发送完，导致其在不同阶段发送，所以一共有四次挥手</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>问：为什么再第四次挥手中，客户端发送完最后确认后不直接进入 <strong>CLOSE</strong> 状态？</p>
+<ol>
+<li>确保有足够的时间让对方收到 ACK 包</li>
+<li>避免新旧连接混淆</li>
+</ol>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://smallqi.com/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" title="三次握手 和 四次挥手" target="_blank" rel="external">http://smallqi.com/2020/05/20/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%92%8C-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ChanjeChieh" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ChanjeChieh" target="_blank"><span class="text-dark">WangJie</span><small class="ml-1x"></small></a></h3>
+        <div>用心对待每一件事，认真对待每一个人</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/05/21/UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB/" title="UDP 与 TCP 的区别"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/05/20/OSI%E4%B8%83%E5%B1%82%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B/" title="OSI七层参考模型 和 TCP/IP四层模型"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ChanjeChieh" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 版权归 WangJie 所有
+		<br> <a href="http://www.beian.miit.gov.cn" target="_blank"> 鲁ICP备20014018号</a>
+        
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
