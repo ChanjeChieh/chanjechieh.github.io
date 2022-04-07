@@ -18,18 +18,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>分类 | WangJie`s Blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://smallqi.com/categories/index.html">
+  <title>4 torch reshaping | WangJie`s Blog</title>
+  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536import torchx &#x3D; torch.arange(9)x_3x3 &#x3D; x.view(3, 3)x_3x3 &#x3D; x.reshape(3, 3)  # 更安全的操作print(x_3x3)y &#x3D; x_3x3.t()print(y.contiguous().view(9)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 torch reshaping">
+<meta property="og:url" content="http://smallqi.com/2022/04/07/4-torch-reshaping/index.html">
 <meta property="og:site_name" content="WangJie&#96;s Blog">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536import torchx &#x3D; torch.arange(9)x_3x3 &#x3D; x.view(3, 3)x_3x3 &#x3D; x.reshape(3, 3)  # 更安全的操作print(x_3x3)y &#x3D; x_3x3.t()print(y.contiguous().view(9)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-24T17:16:12.524Z">
-<meta property="article:modified_time" content="2020-04-24T17:16:12.524Z">
+<meta property="article:published_time" content="2022-04-07T13:00:52.000Z">
+<meta property="article:modified_time" content="2022-04-07T13:04:17.227Z">
 <meta property="article:author" content="WangJie">
+<meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://smallqi.com/categories/index.html">
+  <link rel="canonical" href="http://smallqi.com/2022/04/07/4-torch-reshaping/index.html">
   
     <link rel="alternate" href="/atom.xml" title="WangJie`s Blog" type="application/atom+xml">
   
@@ -288,24 +291,133 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="article article-categories article-type-list" itemscope="">
-    <header class="article-header">
-      <h1 itemprop="name" class="hidden-xs">分类</h1>
-      <p class="text-muted hidden-xs">共 0 个分类</p>
-      <nav role="navigation" id="nav-main" class="okayNav">
-        <ul>
-          <li><a href="/categories">All</a></li>
-          
-        </ul>
-      </nav>
-    </header>
-    <!-- /header -->
-    <div class="article-body">
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-4-torch-reshaping" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      4 torch reshaping
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/04/07/4-torch-reshaping/" class="article-date">
+	  <time datetime="2022-04-07T13:00:52.000Z" itemprop="datePublished">2022-04-07</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/AI/" rel="tag">AI</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/04/07/4-torch-reshaping/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 117(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line"></span><br><span class="line">x = torch.arange(9)</span><br><span class="line"></span><br><span class="line">x_3x3 = x.view(3, 3)</span><br><span class="line">x_3x3 = x.reshape(3, 3)  # 更安全的操作</span><br><span class="line">print(x_3x3)</span><br><span class="line"></span><br><span class="line">y = x_3x3.t()</span><br><span class="line">print(y.contiguous().view(9)) # 必须用 contiguous 函数后 view</span><br><span class="line"></span><br><span class="line">x1 = torch.rand(2, 5)</span><br><span class="line">x2 = torch.rand(2, 5)</span><br><span class="line">print(torch.cat(((x1, x2)), dim=1))</span><br><span class="line"></span><br><span class="line">x = x1.view(-1)</span><br><span class="line">print(x)</span><br><span class="line"></span><br><span class="line">batch = 64</span><br><span class="line">x = torch.rand((batch, 2, 5))</span><br><span class="line">z = x.view(batch, -1)</span><br><span class="line">print(z.shape)</span><br><span class="line"></span><br><span class="line">z = x.permute(0, 2, 1)</span><br><span class="line">print(z.shape)</span><br><span class="line"></span><br><span class="line">x = torch.arange(10)</span><br><span class="line">print(x.unsqueeze(0).shape)</span><br><span class="line">print(x.unsqueeze(1).shape)</span><br><span class="line"></span><br><span class="line">x = torch.rand(10).unsqueeze(0).unsqueeze(1)</span><br><span class="line">print(x.shape)</span><br><span class="line"></span><br><span class="line">z = x.squeeze(1)</span><br><span class="line">print(z.shape)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://smallqi.com/2022/04/07/4-torch-reshaping/" title="4 torch reshaping" target="_blank" rel="external">http://smallqi.com/2022/04/07/4-torch-reshaping/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ChanjeChieh" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ChanjeChieh" target="_blank"><span class="text-dark">WangJie</span><small class="ml-1x"></small></a></h3>
+        <div>用心对待每一件事，认真对待每一个人</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
   </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2022/04/07/3-torch-indexing/" title="3 torch indexing"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+
+
 </main>
+
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
 	
 	
@@ -358,6 +470,39 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
