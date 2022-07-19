@@ -9,7 +9,7 @@
   <title>左神算法笔记_1.2 - WangJie`s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   
-  <meta name="keywords" content=生活,博客,前端,游戏>
+  <meta name="keywords" content=算法>
   
   
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
@@ -55,9 +55,15 @@
     <span class="post-time">2022-07-19</span>
   </div>
   <div class="post-content">
-    
+    <h2 id="1、数组指定范围区间数字的和"><a href="#1、数组指定范围区间数字的和" class="headerlink" title="1、数组指定范围区间数字的和"></a>1、数组指定范围区间数字的和</h2><p>利用辅助数组前缀和数组（什么是前缀和数组？如果一个数组 arr，值为  {1, 2, 3, 4, 5}，那么其前缀和数组为 {1, 3, 6, 10, 15}，用公式表示：help[cur] &#x3D; help[pre] + arr[cur]，其中 help 就是前缀和数组）</p>
+<p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RangeSum</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] help;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RangeSum</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> arr.length;</span><br><span class="line">        help = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        help[<span class="number">0</span>] = arr[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="number">0</span>; pre &lt; N-<span class="number">1</span>; pre++)</span><br><span class="line">            help[pre + <span class="number">1</span>] = help[pre] + arr[pre + <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">rangeSum</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> &#123;</span><br><span class="line">        <span class="type">return</span> <span class="variable">l</span> <span class="operator">=</span>= <span class="number">0</span> ? help[r] : help[r] - help[l-<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、"><a href="#2、" class="headerlink" title="2、"></a>2、</h2>
   </div>
   <div class="post-footer">
+    
+      <ul class="post-tag-list" itemprop="keywords"><li class="post-tag-list-item"><a class="post-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
     
 
     <a href="#top" class="top">返回顶部</a>
