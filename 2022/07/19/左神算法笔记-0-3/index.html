@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>左神算法笔记_0.3 - WangJie`s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=生活,博客,前端,游戏>
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="WangJie`s Blog" type="application/atom+xml">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">WangJie`s Blog</a>
+    <div class="subtitle"></div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">左神算法笔记_0.3</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2022-07-19</span>
+  </div>
+  <div class="post-content">
+    <h3 id="1、二分法"><a href="#1、二分法" class="headerlink" title="1、二分法"></a>1、二分法</h3><h4 id="1-1-二分查找"><a href="#1-1-二分查找" class="headerlink" title="1.1 二分查找"></a>1.1 二分查找</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> num)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> arr.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (L &lt;= R) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (L + R) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid] == num)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (arr[mid] &lt; num)</span><br><span class="line">            L = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            R = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-有序数组找到大于等于-num-最左的位置"><a href="#1-2-有序数组找到大于等于-num-最左的位置" class="headerlink" title="1.2 有序数组找到大于等于 num 最左的位置"></a>1.2 有序数组找到大于等于 num 最左的位置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">mostLeftNoLessNumIndex</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> num)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> <span class="number">0</span>, R = arr.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (L &lt;= R) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (L + R) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid] &gt;= num) &#123;</span><br><span class="line">            ans = mid;</span><br><span class="line">            R = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            L = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-有序数组找到小于等于-num-最右的位置"><a href="#1-3-有序数组找到小于等于-num-最右的位置" class="headerlink" title="1.3 有序数组找到小于等于 num 最右的位置"></a>1.3 有序数组找到小于等于 num 最右的位置</h3><p>同上</p>
+<h3 id="1-4-局部最小值问题"><a href="#1-4-局部最小值问题" class="headerlink" title="1.4 局部最小值问题"></a>1.4 局部最小值问题</h3><p>题目：有一个无序的数组，任意相邻的两个元素都不相等，编写函数，该函数返回数组中任意一个局部最小值的位置</p>
+<p>局部最小值（【i】表示下标为 i 处数组的值）的定义如下：</p>
+<ul>
+<li>【0】 小于 【1】：0 是局部最小值</li>
+<li>【n-1】 小于 【n-2】：n-1 位置的数字局部最小</li>
+<li>对于其他位置 i，【i】 小于 【i-1】，并且 【i】小于【i+1】：i 位置的数字局部最小</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">oneMinIndex</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">if</span> (N == <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (arr[<span class="number">0</span>] &lt; arr[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (arr[N-<span class="number">1</span>] &lt; arr[N-<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">return</span> N-<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> N-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (L &lt; R-<span class="number">1</span>) &#123; <span class="comment">// 保证 L 到 R 之间大于三个数字</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> ( L + R ) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid] &lt; arr[mid - <span class="number">1</span>] &amp;&amp; arr[mid] &lt; arr[mid + <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid] &gt; arr[mid - <span class="number">1</span>]) &#123;</span><br><span class="line">            R = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid] &gt; arr[mid + <span class="number">1</span>]) &#123;</span><br><span class="line">            L = mid + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr[L] &lt; arr[R] ? L : R;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">check</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> minIndex)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr.length == <span class="number">0</span>)</span><br><span class="line">        <span class="type">return</span> <span class="variable">minIndex</span> <span class="operator">=</span>= -<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> minIndex - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> minIndex + <span class="number">1</span>;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">leftBigger</span> <span class="operator">=</span> left &lt; <span class="number">0</span> || arr[left] &gt; arr[minIndex];</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">rightBigger</span> <span class="operator">=</span> right &gt; arr.length - <span class="number">1</span> || arr[right] &gt; arr[minIndex];</span><br><span class="line">    <span class="keyword">return</span> leftBigger &amp;&amp; rightBigger;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">printArray</span><span class="params">(<span class="type">int</span>[] arr)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        System.out.print(arr[i] + <span class="string">&quot; &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxLen</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">maxValue</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">testNum</span> <span class="operator">=</span> <span class="number">10000</span>;</span><br><span class="line">    System.out.println(<span class="string">&quot;start&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; testNum; i++) &#123;</span><br><span class="line">        <span class="type">int</span>[] arr = randomArray(maxLen, maxValue);</span><br><span class="line">        <span class="type">int</span> <span class="variable">minIndex</span> <span class="operator">=</span> oneMinIndex(arr);</span><br><span class="line">        <span class="keyword">if</span> ( !check(arr, minIndex) ) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;minIndex: &quot;</span> + minIndex);</span><br><span class="line">            printArray(arr);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+  <div class="post-footer">
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2022
+  <span class="author">
+    WangJie
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
