@@ -57,14 +57,30 @@
   <div class="post-content">
     <h2 id="1、代码预训练"><a href="#1、代码预训练" class="headerlink" title="1、代码预训练"></a>1、代码预训练</h2><p>使用大量代码语料和算力训练 bert 等模型，得到一个可以代码迁移学习的模型</p>
 <h2 id="2、下游任务"><a href="#2、下游任务" class="headerlink" title="2、下游任务"></a>2、下游任务</h2><h3 id="2-1-代码表示学习下游任务："><a href="#2-1-代码表示学习下游任务：" class="headerlink" title="2.1 代码表示学习下游任务："></a>2.1 代码表示学习下游任务：</h3><ul>
-<li>代码翻译（code translation）就是给一段代码，让模型用另一种编程语言实现，使用 CodeTrans 数据集<ul>
+<li>代码翻译（code translation）就是给一段代码，让模型用另一种编程语言实现，使用 CodeSearchNet 数据集<ul>
 <li>评价指标：BLEU 分数、准确率（完全匹配）、CodeBLEU 分数</li>
 </ul>
 </li>
 <li>代码摘要（code summarization）和代码翻译类似，不同点是代码摘要的目的是生成代码的注释，用 CodeSearchNet 数据集</li>
 <li>代码搜索（code search）就是计算代码和代码注释的向量相似度（这个任务还有更细的划分，还没看明白）</li>
 <li>克隆检测（code detection）分为二分类任务和检索任务：二分类就是给定两个代码的向量表示，然后用模型去判断它俩是不是有相同的作用；检索任务就是给定一段代码，然后让模型找到和这个代码有相同作用的代码，这俩任务分别用  BigCloneBench 和 POJ-104 两个数据集</li>
+<li>代码修复（code repair）的数据集有俩（Java 长度小于 50 的和 Java 长度大于 50 小于 100 的），使用 Bugs2Fix 数据集<ul>
+<li>评价指标：BLEU 分数，精确度、CodeBLEU 分数</li>
 </ul>
+</li>
+</ul>
+<h2 id="3、实验"><a href="#3、实验" class="headerlink" title="3、实验"></a>3、实验</h2><p>colab 上已经有的实验：</p>
+<ol>
+<li>代码搜索（code search）</li>
+<li>代码翻译（code translation）</li>
+<li>代码摘要（code summary）</li>
+<li>代码修复（code repaire）：代码很离谱，应该跑不动</li>
+</ol>
+<p>CodeXGLUE 上有数据和代码、可以跑通的实验：</p>
+<ol>
+<li>CodeSummary（已经跑通）</li>
+<li></li>
+</ol>
 
   </div>
   <div class="post-footer">
