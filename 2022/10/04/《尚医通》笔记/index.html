@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>WangJie`s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=生活,博客,前端,游戏>
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="WangJie`s Blog" type="application/atom+xml">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">WangJie`s Blog</a>
+    <div class="subtitle"></div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title"></h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2022-10-04</span>
+  </div>
+  <div class="post-content">
+    <p>title: 《尚医通》笔记<br>date: 2022-09-26 11:29:12<br>tags: [java]</p>
+<h2 id="一、MyBatis-Plus（持久化层）"><a href="#一、MyBatis-Plus（持久化层）" class="headerlink" title="一、MyBatis-Plus（持久化层）"></a>一、MyBatis-Plus（持久化层）</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>MyBatis-Plus 是一个MyBatis 的增强工具</p>
+<ul>
+<li>支持多种数据库</li>
+<li>内置通用的增删改查</li>
+<li>内置分页插件，并支持多种数据库</li>
+<li>版本 8 以上的 MySQL 配置数据库信息时添加时区信息：serverTimeZone&#x3D;UTC</li>
+</ul>
+<h3 id="2-注解"><a href="#2-注解" class="headerlink" title="2. 注解"></a>2. 注解</h3><h4 id="2-1-TableName-注解"><a href="#2-1-TableName-注解" class="headerlink" title="2.1 @TableName 注解"></a>2.1 @TableName 注解</h4><p>MyBatis-Plus 官网的 demo 中：</p>
+<ul>
+<li>pojo 类的类名和数据库中表的名字是对应的</li>
+<li>如果不对应，可以使用 @TableName 注解来指定 pojo 类对应数据库中的表名</li>
+</ul>
+<p>换句话说：</p>
+<ul>
+<li>MyBatis-Plus 会根据 BaseMapper 泛型 pojo 类名去映射一个数据表</li>
+<li>如果 mp 找不到数据表，可以使用 @TableName 注解指定表名，mp 就会根据指定的表名去映射一个数据表</li>
+</ul>
+<h4 id="2-2-TableField-注解"><a href="#2-2-TableField-注解" class="headerlink" title="2.2 @TableField 注解"></a>2.2 @TableField 注解</h4><p>mp 在数据库中找到表后：</p>
+<ul>
+<li>mp 会将没下划线的列名把首字母变成小写，然后映射到 pojo 属性上，以下划线分割的列名会转换为驼峰命名（也可以通过下面 application.yaml 文件中的配置取消，见下面的代码段），然后再映射到 pojo 类的属性上</li>
+<li>如果在数据表中映射不到列名的话，可以使用 @TableField 注解指定了字段名，mp 就根据指定的字段名去映射数据表中的列名</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>以 MySQL 数据表 user 中字段 nick_name 为例，把 ”下划线转驼峰命名“ 设为 false 后想把 pojo 类和数据表映射起来有两种方法：</p>
+<ol>
+<li>直接属性名，和数据表中列名完全一致，即 String nick_name</li>
+<li>使用 @TableField 注解，无论属性名是什么，mp 都会把表中的值绑定上去</li>
+</ol>
+<blockquote>
+<p> 如果同时：</p>
+<ol>
+<li>开启驼峰命名转换</li>
+<li>pojo 类的属性上加了正确的 @TableField 注解</li>
+<li>但属性名不是驼峰命名</li>
+</ol>
+<p> 这种情况，相关字段也查不到结果（因为这个注解只对查询有作用，数据返回时会被 yaml 中的配置抵消掉从而不起作用，不确定，留个坑）</p>
+</blockquote>
+<p>所以，@TableField 和 application.yaml 中 ”下划线转驼峰命名“ 设置为 false 的配置不能同时使用（短见）</p>
+<h4 id="2-2-TableId-注解（主键生成策略）"><a href="#2-2-TableId-注解（主键生成策略）" class="headerlink" title="2.2 @TableId 注解（主键生成策略）"></a>2.2 @TableId 注解（主键生成策略）</h4><ul>
+<li>表示这个字段是 pojo 类对应表的主键，可进行自增操作</li>
+<li>如果不设置这个属性的值就进行 insert 操作，就需要用到  mp 的 <strong>主键生成策略</strong>（通过 @TableId 的 type 属性设置）：<ul>
+<li>NONE：使用 “雪花算法” 生成主键（19 位数值类型的 id，也是 mp 的默认主键生成策略，<strong>推荐使用</strong>）</li>
+<li>INPUT：指定使用用户输入的主键值</li>
+<li>AUTO：使用数据表的自增主键（两个要求：id 字段为数值类型，id 字段为自增类型）</li>
+<li>ASSIGN_ID：指定用户输入 id，没有输入的话使用 NONE</li>
+<li>ASSIGN_UUID：指定用户输入 uuid，没有输入的话使用 NONE，使用 Java 生成 uuid 的方法：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、直接使用 UUID 工具生成的 uuid 带有四个 “-”，需要删除</span></span><br><span class="line"><span class="type">String</span> <span class="variable">uuid</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">System.out.println(uuid);</span><br><span class="line"><span class="comment">// 32e9b6af-f048-4438-8037-0456a3517114 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2、对生成的 uuid 进行 replaceAll 操作，删除四个 “-”，变成真正的 32 位 uuid</span></span><br><span class="line"><span class="type">String</span> <span class="variable">uuid</span> <span class="operator">=</span> UUID.randomUUID().toString().replaceAll cao<span class="string">&#x27;z(&quot;-&quot;, &quot;&quot;);</span></span><br><span class="line"><span class="string">System.out.println(uuid);</span></span><br><span class="line"><span class="string">// d550d5010b134a21ad569fadbd5a3b1f</span></span><br></pre></td></tr></table></figure>
+
+<p>但是：</p>
+<ul>
+<li>uuid 是字符类型，不便于搜索；</li>
+<li>mysql 自带的自增数值类型在进行分库分表的时候会发生冲突</li>
+</ul>
+<p>因此推荐使用 mp 自带的雪花算法</p>
+<h3 id="3-增删改查"><a href="#3-增删改查" class="headerlink" title="3. 增删改查"></a>3. 增删改查</h3><p>mp 针对四种操作提供了简单的接口可以直接调用，且包括：</p>
+<ul>
+<li>逻辑删除</li>
+<li>分页查询</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">10l</span>, <span class="string">&quot;lisi&quot;</span>, <span class="number">18</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 增加</span></span><br><span class="line">userMapper.insert(user);</span><br><span class="line"><span class="comment">// 2. 删除</span></span><br><span class="line">userMapper.deleteById(user);</span><br><span class="line"><span class="comment">// 3. 修改</span></span><br><span class="line">userMapper.updateById(user);</span><br><span class="line"><span class="comment">// 4. 查询</span></span><br><span class="line"><span class="comment">//  4.1 直接根据 id 查询</span></span><br><span class="line">userMapper.selectById(<span class="number">10l</span>);</span><br><span class="line"><span class="comment">//  4.2 根据存储 id 值的列表查询</span></span><br><span class="line">userMapper.selectBatchIds(Arrays.asList(<span class="number">1l</span>, <span class="number">2l</span>, <span class="number">3l</span>, <span class="number">4l</span>));</span><br><span class="line"><span class="comment">//  4.3 根据 map 存储字段的值进行与查询</span></span><br><span class="line">HashMap&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;may&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;age&quot;</span>, <span class="number">18</span>);</span><br><span class="line">userMapper.selectByMap(map);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-自动填充"><a href="#4-自动填充" class="headerlink" title="4. 自动填充"></a>4. 自动填充</h3><p>实际数据表里面经常需要记录一下数据的创建时间（create time）和修改时间（update time），一般情况下编写业务逻辑的时候需要手动编码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user.setCreateTime(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">user.setUpdateTime(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br></pre></td></tr></table></figure>
+
+<p>而 mp 自带了自动填充功能，不需要在编写业务逻辑的时候对这些字段进行编码，<strong>实现方法</strong> 如下两步：</p>
+<ol>
+<li>在需要自动填充的属性上添加注解：@TableField(fill &#x3D; FieldFill.INSERT) 或 @TableField(fill &#x3D; FieldFill.UPDATE)</li>
+<li>编写代码，实现 MetaObjectHandler 接口，并添加 @component 注解将其放入 spring 容器中管理</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.mysql_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.reflection.MetaObject;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyMetaObjectHandler</span> <span class="keyword">implements</span> <span class="title class_">MetaObjectHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertFill</span><span class="params">(MetaObject metaObject)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.setFieldValByName(<span class="string">&quot;createTime&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>(), metaObject);</span><br><span class="line">        <span class="built_in">this</span>.setFieldValByName(<span class="string">&quot;updateTime&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>(), metaObject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">updateFill</span><span class="params">(MetaObject metaObject)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.setFieldValByName(<span class="string">&quot;updateTime&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>(), metaObject);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-乐观锁"><a href="#5-乐观锁" class="headerlink" title="5. 乐观锁"></a>5. 乐观锁</h3><p>一般的业务使用悲观锁：一个业务正在对一条数据进行操作的时候，不允许其他事务对该事务进行操作，所以悲观锁的特点是：</p>
+<ul>
+<li>优点：可以保证数据的安全性、正确性</li>
+<li>缺点：降低了并发度</li>
+</ul>
+<p>乐观锁不同的是，它在数据表中添加一个 int 类型的 version 字段，所有业务都能同时进行写操作，但每次写操作结束后都要先判断表中的 version 是不是和取值的时候一致，一致的话继续写入，并对 version 加一；否则不能写入。mp 实现乐观锁的如下三步：</p>
+<ol>
+<li>在数据表中加入 int 类型的字段 version，对应的 pojo 同</li>
+<li>在 pojo 类中 version 属性上添加 @version 注解</li>
+<li>配置自动填充插件（见上面 4. 自动填充）和乐观锁插件（mp 官网有）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MybatisPlusConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 乐观锁插件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> MybatisPlusInterceptor <span class="title function_">mybatisPlusInterceptor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">MybatisPlusInterceptor</span> <span class="variable">interceptor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MybatisPlusInterceptor</span>();</span><br><span class="line">        interceptor.addInnerInterceptor(<span class="keyword">new</span> <span class="title class_">OptimisticLockerInnerInterceptor</span>());</span><br><span class="line">        <span class="keyword">return</span> interceptor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加乐观锁后，对数据的修改时会让 version 版本号 +1，</p>
+<h3 id="6-分页查询"><a href="#6-分页查询" class="headerlink" title="6. 分页查询"></a>6. 分页查询</h3><p>mp 自带分页插件，需要先使用核心插件配置自动分页插件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MybatisPlusConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> MybatisPlusInterceptor <span class="title function_">mybatisPlusInterceptor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">MybatisPlusInterceptor</span> <span class="variable">interceptor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MybatisPlusInterceptor</span>();</span><br><span class="line">        <span class="comment">// 1、乐观锁插件</span></span><br><span class="line">        interceptor.addInnerInterceptor(<span class="keyword">new</span> <span class="title class_">OptimisticLockerInnerInterceptor</span>());</span><br><span class="line">        <span class="comment">// 2、新的分页插件,一缓和二缓遵循mybatis的规则,需要设置:</span></span><br><span class="line">        <span class="comment">//    MybatisConfiguration#useDeprecatedExecutor = false</span></span><br><span class="line">        <span class="comment">//    避免缓存出现问题 (该属性会在旧插件移除后一同移除)</span></span><br><span class="line">        interceptor.addInnerInterceptor(<span class="keyword">new</span> <span class="title class_">PaginationInnerInterceptor</span>(DbType.H2));</span><br><span class="line">        <span class="keyword">return</span> interceptor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Bean</span></span><br><span class="line"><span class="comment">//    public ConfigurationCustomizer configurationCustomizer() &#123;</span></span><br><span class="line"><span class="comment">//        return configuration -&gt; configuration.setUseDeprecatedExecutor(false);</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以直接用了（Wrapper 功能待更）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  4.4 分页查询（需要配置插件，mp 官网有代码）</span></span><br><span class="line">Page&lt;User&gt; page = <span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">Page&lt;User&gt; userPage = userMapper.selectPage(page, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-逻辑删除"><a href="#7-逻辑删除" class="headerlink" title="7. 逻辑删除"></a>7. 逻辑删除</h3><p>实现步骤如下：</p>
+<ol>
+<li>在数据表中添加 tinyint 类型的 deleted 字段，设置默认值 0（或使用 mp 的自动填充）</li>
+<li>在 pojo 类中添加属性并添加 @TableLogic 注解<strong>（重点）</strong></li>
+</ol>
+<p>done</p>
+<ul>
+<li><p>这样以后再删除数据的时候就只是把 deleted 改为 1（也就是逻辑删除）</p>
+</li>
+<li><p>查询的时候 mp 也会在查询语句后面带上查询条件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WHERE deleted=0</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>也可以用 yaml 配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">logic-delete-field:</span> <span class="string">deleted</span> <span class="comment"># 这里配置了就不用在 deleted 属性上加注解了</span></span><br><span class="line">      <span class="attr">logic-delete-value:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">logic-not-delete-value:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-Wrapper-介绍"><a href="#8-Wrapper-介绍" class="headerlink" title="8. Wrapper 介绍"></a>8. Wrapper 介绍</h3><p>wrapper 是 mp 封装好的条件构造器，将程序员和 sql 语句进行 “解耦合” 。。。类的继承关系如下图：</p>
+<p>![在这里插入图片描述](D:\Chanje&#96;s Blog\source_posts\《尚医通》笔记\watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfNTA5NzU5NjU&#x3D;,size_13,color_FFFFFF,t_70,g_se,x_16)</p>
+<p>使用方式举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println((<span class="string">&quot;----- selectAll method test ------&quot;</span>));</span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(<span class="string">&quot;age&quot;</span>, <span class="number">18</span>); <span class="comment">// 使用多个条件的时候结合 HashMap 和 allEq 一起用</span></span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.selectOne(queryWrapper); <span class="comment">// 查多个用 selectList</span></span><br><span class="line">    System.out.println(user);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println((<span class="string">&quot;----- selectAll method test ------&quot;</span>));</span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(<span class="string">&quot;age&quot;</span>, <span class="number">18</span>).or().eq(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Sandy&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-自定义-sql-语句"><a href="#9-自定义-sql-语句" class="headerlink" title="9. 自定义 sql 语句"></a>9. 自定义 sql 语句</h3><p>实现方法：</p>
+<ul>
+<li>在 UserMapper 接口中定义的函数加 @select 注解</li>
+<li>如果有多个参数需要使用 @Param 注解</li>
+<li>select 语句使用 #() 获取参数的值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;User&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from user where age &gt; #&#123;age&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;User&gt; <span class="title function_">selectUserList</span><span class="params">(<span class="meta">@Param(value = &quot;age&quot;)</span> Integer age)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-使用-mp-快速生成-Service-层"><a href="#10-使用-mp-快速生成-Service-层" class="headerlink" title="10. 使用 mp 快速生成 Service 层"></a>10. 使用 mp 快速生成 Service 层</h3><p>（其实还有代码自动生成工具，更简单）</p>
+<p>如果想要自己的 Service 层拥有 mp 预先定义好的增删改查方法，需要：</p>
+<ul>
+<li>让接口继承 IService 方法</li>
+<li>让实现类继承 ServiceImpl 抽象类并实现自定义接口</li>
+</ul>
+<p>实现方法：</p>
+<p>Service 文件目录如下：</p>
+<ul>
+<li>service（包）<ul>
+<li>impl（包）<ul>
+<li>UserServiceImpl.java</li>
+</ul>
+</li>
+<li>UserService.java</li>
+</ul>
+</li>
+</ul>
+<p>具体代码：</p>
+<ul>
+<li><p>UserServiceImpl.java 核心代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span></span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;UserMapper, User&gt;</span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">UserService</span>  &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UserService.java  核心代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;User&gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>如果有自定义 sql 的需求：</p>
+<ol>
+<li>在 UserService.java 中定义方法：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;User&gt; <span class="title function_">getUserList</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在 UserServiceImpl.java 中实现该方法：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> List&lt;User&gt; <span class="title function_">getUserList</span><span class="params">()</span> &#123;</span><br><span class="line">    QueryWrapper&lt;User&gt; userWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    userWrapper.ge(<span class="string">&quot;age&quot;</span>, <span class="number">22</span>);</span><br><span class="line">    <span class="keyword">return</span> baseMapper.selectList(userWrapper); <span class="comment">// UserMapper 会被自动注入到 baseMapper 中</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、控制台输出"><a href="#二、控制台输出" class="headerlink" title="二、控制台输出"></a>二、控制台输出</h2><h3 id="1-打印日志"><a href="#1-打印日志" class="headerlink" title="1. 打印日志"></a>1. 打印日志</h3><p>如果想查看程序查询数据的时候用的查询语句，可以在 application.yaml 中进行配置：</p>
+<p>一种方式（logging-level）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="comment"># root: debug # 表示整个项目下 debug 级别及以上的日志</span></span><br><span class="line">    <span class="attr">com.example.mysql_:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+
+<p>另一种方式（mybatis-plus 自带工具）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打印-List-列表的四种方法"><a href="#2-打印-List-列表的四种方法" class="headerlink" title="2. 打印 List 列表的四种方法"></a>2. 打印 List 列表的四种方法</h3><ol>
+<li>for 循环</li>
+<li>增强 for 循环</li>
+<li>迭代器</li>
+<li>流</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.ge(<span class="string">&quot;age&quot;</span>, <span class="string">&quot;18&quot;</span>);</span><br><span class="line">    List&lt;User&gt; userList = userMapper.selectList(queryWrapper);</span><br><span class="line">    <span class="comment">// 1. for 循环</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; userList.size(); i++)</span><br><span class="line">        System.out.print(userList.get(i) + <span class="string">&quot; &quot;</span>);</span><br><span class="line">    System.out.println();</span><br><span class="line">    <span class="comment">// 2. for 增强</span></span><br><span class="line">    <span class="keyword">for</span> (User user : userList)</span><br><span class="line">        System.out.print(user + <span class="string">&quot; &quot;</span>);</span><br><span class="line">    System.out.println();</span><br><span class="line">    <span class="comment">// 3. 迭代器</span></span><br><span class="line">    Iterator&lt;User&gt; iterator = userList.iterator();</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">        System.out.print(iterator.next());</span><br><span class="line">    System.out.println();</span><br><span class="line">    <span class="comment">// 4. 流</span></span><br><span class="line">    Stream&lt;User&gt; userStream = userList.stream(); <span class="comment">// 也可以用并行流 parallelStream()</span></span><br><span class="line">    userStream.forEach(item-&gt;&#123;</span><br><span class="line">        System.out.println(item);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数式接口：被子类实现的方法有且只有一个</li>
+<li>lambda 表达式：简便实现函数式接口的方法</li>
+</ul>
+<h2 id="三、项目搭建"><a href="#三、项目搭建" class="headerlink" title="三、项目搭建"></a>三、项目搭建</h2><h3 id="1-数据库设计"><a href="#1-数据库设计" class="headerlink" title="1. 数据库设计"></a>1. 数据库设计</h3><ol>
+<li>库名尽量和应用名称保持一致</li>
+<li>表名和字段名使用小写字母和数字（不能出现在开头）</li>
+<li>表名不能是复数</li>
+<li>表必须有三个字段：ID（bigint unsigned）、create_time 和 update_time</li>
+<li>单表行数超过 500 万，或者单表的大小超过 2GB 才可分库分表</li>
+<li>数据库中的布尔类型需要 is 开头（unsigned tinyint），pojo 类中不需要</li>
+<li>小数使用 decimal 类型，不能用 float 和 double</li>
+<li>字符串定长用 char，不等长用 varchar，长度超过 5000 用 text 并且做分表（避免影响检索速度）</li>
+<li>唯一索引名用 uk 开头，普通索引名用 idx 开头</li>
+<li>分布式等系统不能联表查询，可以用空间换时间</li>
+</ol>
+<h3 id="2-项目结构"><a href="#2-项目结构" class="headerlink" title="2. 项目结构"></a>2. 项目结构</h3><p>打包格式：有子项目的使用 pom 包，其他使用 jar 包，方便管理子模块的依赖版本</p>
+<p>构建方式：除了 parent 聚合项目（使用 springboot 的方式创建，这样会继承父工程），其他项目都使用 maven 创建</p>
+<ul>
+<li>父工程（yygh_parent）<ul>
+<li>model：pojo 类、枚举类、VO 类</li>
+<li>coder：根据数据表自动生成代码</li>
+<li>common 模块：<ul>
+<li>common_util：所有模块通用的工具类</li>
+<li>service_util：service 模块使用的工具类</li>
+<li>rabbitmq_util：rabbitmq 使用的工具类</li>
+</ul>
+</li>
+<li>service 模块：微服务<ul>
+<li>service_hosp：医院 api 接口服务</li>
+<li>service_cmn：公共 api 接口服务</li>
+<li>service_user：用户 api 接口服务</li>
+<li>service_order：订单 api 接口服务</li>
+<li>service_oss：文件 api 接口服务</li>
+<li>service_msm：短信 api 接口服务</li>
+<li>service_task：定时任务服务</li>
+<li>service_statistics：统计api接口服务</li>
+</ul>
+</li>
+<li>service-client 模块：<ul>
+<li>service-cmn-client：公共 api 接口</li>
+<li>service-hosp-client：医院 api 接口</li>
+<li>service-order-client：订单 api 接口</li>
+</ul>
+</li>
+<li>gateway 模块：对外提供微服务的统一入口</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-实操"><a href="#3-实操" class="headerlink" title="3. 实操"></a>3. 实操</h3><p>先创建父工程 yygh_parent，然后使用 idea 的 module 创建模块功能分别创建 model、service、coder 以及 service 的子模块 service_hosp，其中：</p>
+<ul>
+<li>model：直接拷贝资料中的源文件</li>
+</ul>
+<p><img src="/./pictures/1.png" alt="image-20220930110355038"></p>
+<ul>
+<li>service：手动创建后配置并导入依赖</li>
+</ul>
+<p><img src="/./pictures/2.png" alt="image-20220930110355038"></p>
+<ul>
+<li><p>service_hosp：手动创建后配置并导入依赖</p>
+</li>
+<li><p><img src="/./pictures/3.png" alt="image-20220930110355038"></p>
+</li>
+<li><p>coder：手动创建后使用 mp 官网给定的自动生成代码的模板在 service_hosp 下根据数据表自动生成代码</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.atguigu;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.toolkit.StringUtils;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.generator.AutoGenerator;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.generator.config.*;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CodeGenerator</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * 读取控制台内容</span></span><br><span class="line"><span class="comment">     * &lt;/p&gt;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">scanner</span><span class="params">(String tip)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">help</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        help.append(<span class="string">&quot;请输入&quot;</span> + tip + <span class="string">&quot;：&quot;</span>);</span><br><span class="line">        System.out.println(help.toString());</span><br><span class="line">        <span class="keyword">if</span> (scanner.hasNext()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">ipt</span> <span class="operator">=</span> scanner.next();</span><br><span class="line">            <span class="keyword">if</span> (StringUtils.isNotBlank(ipt)) &#123;</span><br><span class="line">                <span class="keyword">return</span> ipt;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">MybatisPlusException</span>(<span class="string">&quot;请输入正确的&quot;</span> + tip + <span class="string">&quot;！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 代码生成器</span></span><br><span class="line">        <span class="type">AutoGenerator</span> <span class="variable">mpg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AutoGenerator</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 全局配置</span></span><br><span class="line">        <span class="type">GlobalConfig</span> <span class="variable">gc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GlobalConfig</span>();</span><br><span class="line">        <span class="comment">// String projectPath = System.getProperty(&quot;user.dir&quot;);</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">path</span> <span class="operator">=</span> <span class="string">&quot;D:/Developer/Codespace/Java/H2/yygh_parent/service/service_hosp/src/main/&quot;</span>;</span><br><span class="line">        gc.setOutputDir(path + <span class="string">&quot;/java&quot;</span>);</span><br><span class="line">        gc.setServiceName(<span class="string">&quot;%sService&quot;</span>);</span><br><span class="line">        gc.setAuthor(<span class="string">&quot;deepchieh&quot;</span>);</span><br><span class="line">        gc.setOpen(<span class="literal">false</span>);</span><br><span class="line">        <span class="comment">// gc.setSwagger2(true); 实体属性 Swagger2 注解</span></span><br><span class="line">        mpg.setGlobalConfig(gc);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 数据源配置</span></span><br><span class="line">        <span class="type">DataSourceConfig</span> <span class="variable">dsc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataSourceConfig</span>();</span><br><span class="line">        dsc.setUrl(<span class="string">&quot;jdbc:mysql://localhost:3306/yygh_hosp?useUnicode=true&amp;characterEncoding=utf8&quot;</span>);</span><br><span class="line">        <span class="comment">// dsc.setSchemaName(&quot;public&quot;);</span></span><br><span class="line">        dsc.setDriverName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">        dsc.setUsername(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">        dsc.setPassword(<span class="string">&quot;123456&quot;</span>);</span><br><span class="line">        mpg.setDataSource(dsc);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 包配置</span></span><br><span class="line">        <span class="type">PackageConfig</span> <span class="variable">pc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PackageConfig</span>();</span><br><span class="line">        pc.setModuleName(<span class="string">&quot;hosp&quot;</span>);</span><br><span class="line">        pc.setParent(<span class="string">&quot;com.atguigu.yygh&quot;</span>);</span><br><span class="line">        pc.setController(<span class="string">&quot;controller&quot;</span>);</span><br><span class="line">        pc.setService(<span class="string">&quot;service&quot;</span>);</span><br><span class="line">        pc.setMapper(<span class="string">&quot;mapper&quot;</span>);</span><br><span class="line">        pc.setEntity(<span class="string">&quot;entity&quot;</span>);</span><br><span class="line">        mpg.setPackageInfo(pc);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 策略配置</span></span><br><span class="line">        <span class="type">StrategyConfig</span> <span class="variable">strategy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StrategyConfig</span>();</span><br><span class="line">        strategy.setInclude(<span class="string">&quot;hospital_set&quot;</span>);</span><br><span class="line">        strategy.setNaming(NamingStrategy.underline_to_camel);</span><br><span class="line">        strategy.setColumnNaming(NamingStrategy.underline_to_camel);</span><br><span class="line">        strategy.setEntityLombokModel(<span class="literal">true</span>);</span><br><span class="line">        strategy.setRestControllerStyle(<span class="literal">true</span>);</span><br><span class="line">        strategy.setControllerMappingHyphenStyle(<span class="literal">true</span>);</span><br><span class="line">        mpg.setStrategy(strategy);</span><br><span class="line">        mpg.execute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Note：</p>
+<ul>
+<li>包含子工程的模块都需要把打包格式改为 pom，方便管理子模块的依赖版本</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删掉 coder 模块自动生成的 entity，使用 model 模块下的 pojo 文件</li>
+</ul>
+<h3 id="4-编写、测试简单的接口"><a href="#4-编写、测试简单的接口" class="headerlink" title="4. 编写、测试简单的接口"></a>4. 编写、测试简单的接口</h3><p><strong>（一）查询</strong></p>
+<ol>
+<li>使用 Service 中的 hospitalSetService.list() 的方法实现一个 findAll 接口来返回所有的数据</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/admin/hosp/hospitalSet&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HospitalSetController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HospitalSetService hospitalSetService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// @RequestMapping 支持所有的请求方式</span></span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/findall&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;HospitalSet&gt; <span class="title function_">findAll</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> hospitalSetService.list();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>启动 service_hosp 微服务来测试 findAll 接口</li>
+<li>返回 json 文件到前端的时候，在 create_time 属性添加下面的注解，update_time 上不添加</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p>​        得到的结果如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;createTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2021-07-29 07:18:08&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;updateTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2021-07-29T07:18:08.000+0000&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>除了添加注解（局部配置）的方法，还可以在 yaml 中进行 controller 层的全局配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jackson:</span></span><br><span class="line">  <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">  <span class="attr">time-zone:</span> <span class="string">GMT+8</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>（二）删除</strong>（逻辑删除）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping(value = &quot;/deleteById/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">deleteById</span><span class="params">(<span class="meta">@PathVariable</span> Integer id)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> hospitalSetService.removeById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&#x2F;&#x2F; 也可以使用 @RequestParam(“id”) 注解<br>&#x2F;&#x2F; 如果前端返回的数据名和参数名一致的时候，RequestParam 注解可以省略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping(value = &quot;/deleteById&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">deleteById</span><span class="params">(<span class="meta">@RequestParam(&quot;id&quot;)</span> Integer id)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> hospitalSetService.removeById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<ol>
+<li>这里使用 chrome 插件 Talend API Tester 测试接口</li>
+<li>不能用 https 开头，</li>
+</ol>
+</blockquote>
+<h2 id="四、接口工具-Swagger2"><a href="#四、接口工具-Swagger2" class="headerlink" title="四、接口工具 Swagger2"></a>四、接口工具 Swagger2</h2><p>Swagger2 是既可以自动生成接口文档、也可以测试接口的 springboot 插件工具</p>
+<h3 id="1-Swagger-使用"><a href="#1-Swagger-使用" class="headerlink" title="1. Swagger 使用"></a>1. Swagger 使用</h3><p>实现方法如下：</p>
+<ol>
+<li>pom.xml 文件中添加两个依赖：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在配置类中提供 Docket 对象并添加 @EnableSwagger 注解</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootConfiguration</span></span><br><span class="line"><span class="meta">@EnableSwagger2</span> <span class="comment">// 开启 Swagger 支持</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SwaggerConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Docket <span class="title function_">getAdminDocket</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Docket</span>(DocumentationType.SWAGGER_2).groupName(<span class="string">&quot;admin&quot;</span>)</span><br><span class="line">                .apiInfo(getAdminApiInfo()).select()</span><br><span class="line">                .paths(Predicates.and(PathSelectors.regex(<span class="string">&quot;/admin/.*&quot;</span>)))</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>在需要使用 Swagger 子模块中添加 swagger 所在子模块的依赖，并在主启动类上添加 @Component 注解（仅基于微服务的系统）</p>
+</li>
+<li><p>启动微服务后，使用浏览器通过微服务端口访问  swagger-ui.html 页面，如：<a target="_blank" rel="noopener" href="http://localhost:8201/swagger-ui.html">http://localhost:8201/swagger-ui.html</a></p>
+</li>
+</ol>
+<p>如果在 controller 里写了 @RequestMapping 注解，swagger 页面会把所有请求方式都列出来：</p>
+<ul>
+<li>get</li>
+<li>post</li>
+<li>delete</li>
+<li>head</li>
+<li>put</li>
+<li>patch</li>
+<li>options</li>
+</ul>
+<h3 id="2-配置-Swagger"><a href="#2-配置-Swagger" class="headerlink" title="2.  配置 Swagger"></a>2.  配置 Swagger</h3><h4 id="2-1-接口分组查看"><a href="#2-1-接口分组查看" class="headerlink" title="2.1 接口分组查看"></a>2.1 接口分组查看</h4><p>下的代码把 Admin 替换成 User 后，  swagger-ui.html  页面就有了 User 的分组和内部的接口，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> Docket <span class="title function_">getAdminDocket</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Docket</span>(DocumentationType.SWAGGER_2).groupName(<span class="string">&quot;admin&quot;</span>)</span><br><span class="line">            .apiInfo(getAdminApiInfo()).select()</span><br><span class="line">            .paths(Predicates.and(PathSelectors.regex(<span class="string">&quot;/admin/.*&quot;</span>))) <span class="comment">// 只查看 admin 开头的接口</span></span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> ApiInfo <span class="title function_">getAdminApiInfo</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ApiInfoBuilder</span>()</span><br><span class="line">            .title(<span class="string">&quot;管理员系统&quot;</span>)</span><br><span class="line">            .description(<span class="string">&quot;尚医通预约挂号平台后台管理员系统&quot;</span>)</span><br><span class="line">            .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">            .contact(<span class="keyword">new</span> <span class="title class_">Contact</span>(<span class="string">&quot;deepchieh&quot;</span>, <span class="string">&quot;https://chanjechieh.github.io/&quot;</span>, <span class="string">&quot;deepchieh@gmail.com&quot;</span>))</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="/./pictures/7.png" alt="image-20220930110355038"></p>
+<h4 id="2-2-接口说明-ApiOperation"><a href="#2-2-接口说明-ApiOperation" class="headerlink" title="2.2 接口说明 @ApiOperation"></a>2.2 接口说明 @ApiOperation</h4><ul>
+<li>在 Controller <strong>类上</strong>添加 @API 注解：（因为配置分组信息后，会让每个 Controller 类变成一个分组，所以这个 @API 注解就是给一个分组配置说明信息）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Api(tags = &quot;医院设置信息&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 Controller <strong>类里的方法上</strong>添加 @ApiOperation 注解：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApiOperation(value = &quot;查询所有的医院设置信息&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p>效果图：<br><img src="/./pictures/5.png" alt="image-20220930110355038"></p>
+<h4 id="2-3-参数说明-ApiParam"><a href="#2-3-参数说明-ApiParam" class="headerlink" title="2.3 参数说明 @ApiParam"></a>2.3 参数说明 @ApiParam</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApiOperation(value = &quot;根据医院设置id删除医院设置信息&quot;)</span></span><br><span class="line"><span class="meta">@DeleteMapping(value = &quot;/deleteById/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">deleteById</span><span class="params">(<span class="meta">@ApiParam(name = &quot;id&quot;, value = &quot;医院设置id&quot;, required = true)</span> Integer id)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> hospitalSetService.removeById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="/./pictures/8.png" alt="image-20220930110355038"></p>
+<h2 id="五、统一返回结果"><a href="#五、统一返回结果" class="headerlink" title="五、统一返回结果"></a>五、统一返回结果</h2><h4 id="5-1-实现方法"><a href="#5-1-实现方法" class="headerlink" title="5.1 实现方法"></a>5.1 实现方法</h4><p>为了使前端对数据的操作更简单，后端一般会将相应封装成 json 返回，一般情况下，统一返回数据格式没有固定格式，只要能描述清楚响应并返回相应的数据即可，但是一般会包含状态码、返回消息，数据几部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">R</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Integer code;</span><br><span class="line">    <span class="keyword">private</span> Boolean success;</span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; data = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了方便编写代码，通过连缀的方式提供这个类，我们给这个统一返回结果实现 ok 和 error 两个静态方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> R <span class="title function_">ok</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">R</span>(REnum.SUCCESS.getCode(),</span><br><span class="line">                REnum.SUCCESS.getFlag(),</span><br><span class="line">                REnum.SUCCESS.getMessage());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> R <span class="title function_">error</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">R</span>(REnum.ERROR.getCode(),</span><br><span class="line">            REnum.ERROR.getFlag(),</span><br><span class="line">            REnum.ERROR.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并提供设置属性信息的普通方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> R <span class="title function_">code</span> <span class="params">(Integer code)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.code = code;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">success</span> <span class="params">(Boolean success)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.success = success;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">message</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.message = message;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">data</span><span class="params">(String key, Object value)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.data.put(key, value);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">data</span><span class="params">(Map&lt;String, Object&gt; hashMap)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.data = hashMap;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免对 R  对象状态码的硬编码，实现一个枚举类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">REnum</span> &#123;</span><br><span class="line"></span><br><span class="line">    SUCCESS (<span class="number">0</span>, <span class="string">&quot;成功&quot;</span>, <span class="literal">true</span>),</span><br><span class="line">    ERROR (<span class="number">1</span>, <span class="string">&quot;失败&quot;</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 枚举项</span></span><br><span class="line">    <span class="keyword">private</span> Integer code;</span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line">    <span class="keyword">private</span> Boolean flag;</span><br><span class="line"></span><br><span class="line">    REnum(Integer code, String message, Boolean flag) &#123;</span><br><span class="line">        <span class="built_in">this</span>.code = code;</span><br><span class="line">        <span class="built_in">this</span>.message = message;</span><br><span class="line">        <span class="built_in">this</span>.flag = flag;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 各个属性的 get、set 方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-2-作用"><a href="#5-2-作用" class="headerlink" title="5.2 作用"></a>5.2 作用</h4><p>以查询数据库中的数据为例：</p>
+<ol>
+<li>没有统一返回结果的时候返回一个 List：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApiOperation(value = &quot;查询所有的医院设置信息&quot;)</span></span><br><span class="line"><span class="meta">@GetMapping(value = &quot;/findall&quot;)</span></span><br><span class="line"><span class="keyword">public</span> List&lt;HospitalSet&gt; <span class="title function_">findAll</span><span class="params">()</span> &#123;</span><br><span class="line">    Map&lt;String, Object&gt; haspMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> hospitalSetService.list();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编写代码后可以改为返回 R，里面包含了状态码、描述信息和数据：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApiOperation(value = &quot;查询所有的医院设置信息&quot;)</span></span><br><span class="line"><span class="meta">@GetMapping(value = &quot;/findall&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">findAll</span><span class="params">()</span> &#123;</span><br><span class="line">    Map&lt;String, Object&gt; haspMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    haspMap.put(<span class="string">&quot;data&quot;</span>, hospitalSetService.list());</span><br><span class="line">    <span class="keyword">return</span> R.ok().data(haspMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>项目可以配置全局异常处理，因此暂时不考虑</p>
+</blockquote>
+<h2 id="六、ValueObject（VO）"><a href="#六、ValueObject（VO）" class="headerlink" title="六、ValueObject（VO）"></a>六、ValueObject（VO）</h2>
+  </div>
+  <div class="post-footer">
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2022
+  <span class="author">
+    WangJie
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
